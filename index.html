@@ -1,0 +1,3108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- iPhone / Home Screen icon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="日本株チェッカー">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-63JPEC9VPV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-63JPEC9VPV');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>日本株チェッカー｜株価・業績評価・今日の動向・大引け予想を無料チェック</title>
+  <meta name="description" content="日本株の株価、PER、ROE、PBR、RSI、MACD、移動平均、出来高、決算・ニュース、株主優待をまとめて確認。日経平均・TOPIX・米国市場・為替も参考に、銘柄評価や今日の動向、大引け予想をチェックできる無料の日本株分析ツールです。">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="canonical" href="https://ducat595.github.io/stock_app/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:site_name" content="日本株チェッカー">
+  <meta property="og:title" content="日本株チェッカー｜株価・評価・今日の動向・大引け予想">
+  <meta property="og:description" content="日本株の株価・業績・テクニカル・決算・ニュース・株主優待をまとめてチェックできる無料分析ツール。">
+  <meta property="og:url" content="https://ducat595.github.io/stock_app/">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"日本株チェッカー",
+    "url":"https://ducat595.github.io/stock_app/",
+    "description":"日本株の株価・業績・テクニカル・決算・ニュース・株主優待を確認し、銘柄評価や今日の動向、大引け予想をチェックできる無料Webアプリ。",
+    "applicationCategory":"FinanceApplication",
+    "operatingSystem":"Web",
+    "inLanguage":"ja",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}
+  }
+  </script>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: "Segoe UI", "Hiragino Sans", "Meiryo", sans-serif; margin: 0; background: #f5f7fa; color: #222; }
+    .header { background: #1a73e8; color: #fff; padding: 14px 20px; }
+    .header h1 { margin: 0; font-size: 1.25rem; }
+    .header p { margin: 4px 0 0; font-size: 0.85rem; opacity: 0.9; }
+    /* レスポンシブ・カード型メニュー */
+    .nav {
+      max-width: 1100px;
+      margin: 14px auto 0;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      background: transparent;
+    }
+    .nav a {
+      min-height: 68px;
+      padding: 10px 8px;
+      border: 1px solid #dfe3e8;
+      border-radius: 12px;
+      background: #fff;
+      color: #3c4043;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      line-height: 1.35;
+      box-shadow: 0 1px 3px rgba(0,0,0,.08);
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
+      white-space: normal;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .nav a:hover {
+      border-color: #8ab4f8;
+      background: #f8fbff;
+      box-shadow: 0 3px 8px rgba(0,0,0,.11);
+      transform: translateY(-1px);
+    }
+    .nav a.active {
+      color: #174ea6;
+      background: #e8f0fe;
+      border: 2px solid #1a73e8;
+      box-shadow: 0 2px 7px rgba(26,115,232,.18);
+    }
+    .nav .nav-right { margin-left: 0; }
+
+    @media (max-width: 900px) {
+      .nav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 600px) {
+      .header { padding: 12px 14px; }
+      .header h1 { font-size: 1.12rem; }
+      .nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 10px;
+        padding: 0 10px;
+      }
+      .nav a {
+        min-height: 70px;
+        padding: 9px 6px;
+        border-radius: 10px;
+        font-size: 0.84rem;
+      }
+      .container { padding: 12px 10px; }
+    }
+    @media (max-width: 360px) {
+      .nav { gap: 6px; padding: 0 8px; }
+      .nav a { min-height: 66px; font-size: 0.80rem; }
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 16px; }
+    .card { background: #fff; border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .card h2 { margin: 0 0 12px; font-size: 1.1rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #f8f9fa; }
+    tr:hover { background: #f0f7ff; }
+    .btn { display: inline-block; padding: 8px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+    .btn-primary { background: #1a73e8; color: #fff; }
+    .btn-primary:hover { background: #1557b0; }
+    .btn-secondary { background: #e8eaed; color: #333; }
+    .btn-danger { background: #d93025; color: #fff; }
+    .btn-sm { padding: 4px 10px; font-size: 0.8rem; }
+    input[type=text], select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.95rem; }
+    .list-item { padding: 8px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .list-item a.code { font-weight: bold; color: #1a73e8; text-decoration: none; }
+    .list-item a.name { color: #333; text-decoration: none; }
+    .list-item a.name:hover { text-decoration: underline; }
+    .reason { color: #666; font-size: 0.85rem; }
+    .form-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 10px 0; }
+    .msg { padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; display: none; }
+    .msg.show { display: block; }
+    .msg-ok { background: #e6f4ea; color: #137333; }
+    .msg-err { background: #fce8e6; color: #c5221f; }
+    .msg-info { background: #e8f0fe; color: #174ea6; }
+    .score-high { color: #137333; font-weight: bold; }
+    .score-mid { color: #e37400; font-weight: bold; }
+    .score-low { color: #c5221f; font-weight: bold; }
+    .recommendation-badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: .82rem; font-weight: 700; white-space: nowrap; }
+    .recommendation-strong { background: #e6f4ea; color: #137333; }
+    .recommendation-normal { background: #fff4e5; color: #b06000; }
+    .recommendation-watch { background: #f1f3f4; color: #5f6368; }
+    .recommendation-cautious { background: #fce8e6; color: #c5221f; }
+    .recommendation-unavailable { background: #f1f3f4; color: #777; }
+    .value-positive { color: #137333; font-weight: bold; }
+    .value-negative { color: #c5221f; font-weight: bold; }
+    .value-cheap { color: #137333; font-weight: bold; }
+    .value-fair { color: #5f6368; font-weight: bold; }
+    .value-expensive { color: #c5221f; font-weight: bold; }
+    .muted { color: #888; font-size: 0.85rem; }
+    .page { display: none; }
+    .page.active { display: block; }
+    .page:target { display: block; }
+    .container:has(.page:target) .page.active:not(:target) { display: none; }
+    .loading { color: #1a73e8; }
+    #chartDiv { width: 100%; height: 520px; }
+    .tf-btns button { margin: 2px; }
+    .fx-card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px 14px; margin: 12px 0; background: #fff; }
+    .fx-card summary { cursor: pointer; font-weight: 600; color: #202124; }
+    .fx-rate { font-size: 1.65rem; font-weight: 700; margin: 10px 0 2px; }
+    #fxChartDiv { width: 100%; height: 420px; min-width: 0; max-width: 100%; overflow: hidden; box-sizing: border-box; }
+    #fxChartDiv .plot-container, #fxChartDiv .svg-container { width: 100% !important; max-width: 100% !important; }
+    .fx-card { min-width: 0; max-width: 100%; box-sizing: border-box; overflow: hidden; }
+    .fx-news-item { padding: 10px 0; border-bottom: 1px solid #eee; }
+    .fx-news-item a { color: #1a73e8; text-decoration: none; }
+    .fx-news-item a:hover { text-decoration: underline; }
+  
+    /* 株主優待：スマホは表ではなく1社1カードで表示 */
+    @media (max-width: 900px) {
+      .benefit-table-wrap { overflow: visible !important; }
+      .benefit-table { display:block; width:100%; min-width:0 !important; border:0; }
+      .benefit-table thead { display:none; }
+      .benefit-table tbody { display:grid; gap:12px; width:100%; }
+      .benefit-table tr {
+        display:block; width:100%; padding:12px 14px; box-sizing:border-box;
+        border:1px solid #dbe3ee; border-radius:14px; background:#fff;
+        box-shadow:0 2px 8px rgba(0,0,0,.05);
+      }
+      .benefit-table td {
+        display:grid; grid-template-columns:7em minmax(0,1fr); gap:8px;
+        width:100%; padding:7px 0 !important; box-sizing:border-box;
+        border:0 !important; border-bottom:1px solid #eef2f7 !important;
+        text-align:left !important; white-space:normal !important; word-break:break-word;
+      }
+      .benefit-table td:last-child { border-bottom:0 !important; padding-bottom:0 !important; }
+      .benefit-table td::before { font-weight:700; color:#475569; font-size:.86rem; }
+      .benefit-table td:nth-child(1)::before { content:"権利確定日"; }
+      .benefit-table td:nth-child(2)::before { content:"会社コード"; }
+      .benefit-table td:nth-child(3)::before { content:"会社名"; }
+      .benefit-table td:nth-child(4)::before { content:"現在株価"; }
+      .benefit-table td:nth-child(5)::before { content:"業種"; }
+      .benefit-table td:nth-child(6)::before { content:"権利条件"; }
+      .benefit-table td:nth-child(7)::before { content:"優待内容"; }
+      .benefit-table td:nth-child(8)::before { content:"優待状況"; }
+      .benefit-table td:nth-child(9)::before { content:"情報元"; }
+      .benefit-table td:nth-child(10)::before { content:"お気に入り"; }
+      .benefit-table td:nth-child(3) a { font-weight:700; font-size:1rem; }
+      .benefit-table .btn { width:auto; justify-self:start; }
+    }
+
+
+    .detail-eval-card { border:1px solid #dbe3ee; border-radius:14px; padding:16px; background:#fff; }
+    .detail-meta { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; margin:12px 0 16px; }
+    .detail-meta > div { padding:10px; background:#f8fafc; border-radius:10px; }
+    .detail-outlook { margin:12px 0; padding:14px; border:1px solid #e2e8f0; border-radius:12px; }
+    .detail-outlook h3 { margin:0 0 8px; }
+    .detail-view { display:inline-block; font-weight:700; padding:4px 9px; border-radius:999px; background:#eef4ff; margin-bottom:6px; }
+    @media (max-width:600px) {
+      .detail-meta { grid-template-columns:1fr 1fr; }
+      .detail-meta > div:nth-child(2), .detail-meta > div:nth-child(3) { grid-column:span 2; }
+      #detailSearchInput { min-width:0 !important; width:100%; }
+    }
+
+
+    .detail-price-summary { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:14px 0; }
+    .detail-price-summary > div { background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:12px; }
+    .detail-price-summary span { display:block; color:#64748b; font-size:.85rem; margin-bottom:4px; }
+    .detail-price-summary strong { font-size:1.12rem; }
+    .detail-outlook.bull { border-left:6px solid #dc2626; background:#fff7f7; }
+    .detail-outlook.neutral { border-left:6px solid #d97706; background:#fffbeb; }
+    .detail-outlook.bear { border-left:6px solid #2563eb; background:#f5f9ff; }
+    .detail-outlook.bull .detail-view { background:#fee2e2; color:#991b1b; }
+    .detail-outlook.neutral .detail-view { background:#fef3c7; color:#92400e; }
+    .detail-outlook.bear .detail-view { background:#dbeafe; color:#1e40af; }
+    .price-positive { color:#b91c1c; }
+    .price-negative { color:#1d4ed8; }
+    @media (max-width:600px) {
+      .detail-price-summary { grid-template-columns:1fr; }
+    }
+
+
+    .detail-card-title { margin:0 0 10px; font-size:1.2rem; display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+    .detail-card-title a { font-weight:700; }
+    .detail-industry { margin:0 0 14px; color:#475569; }
+
+
+    @media (max-width: 600px) {
+      #fxChartDiv { height: 340px; }
+      .tf-btns { display:flex; flex-wrap:wrap; gap:4px; }
+      .tf-btns button { flex:1 1 calc(33.333% - 8px); min-width:72px; margin:0; }
+    }
+
+    /* スマホ：一括チェック・AIおすすめ・ランキングを1銘柄1カード表示 */
+    @media (max-width: 900px) {
+      #checkTable .mobile-stock-table-wrap,
+      #recDetailTable .mobile-stock-table-wrap,
+      #moversTables .mobile-stock-table-wrap {
+        max-height:none !important; overflow:visible !important; border:0 !important;
+      }
+      #checkTable .mobile-stock-table,
+      #recDetailTable .mobile-stock-table,
+      #moversTables .mobile-stock-table {
+        display:block; width:100%; border:0; background:transparent;
+      }
+      #checkTable .mobile-stock-table thead,
+      #checkTable .mobile-stock-table > tbody > tr:first-child:not(.stock-data-row),
+      #recDetailTable .mobile-stock-table thead,
+      #recDetailTable .mobile-stock-table > tbody > tr:first-child:not(.stock-data-row),
+      #moversTables .mobile-stock-table thead { display:none; }
+      #checkTable .mobile-stock-table tbody,
+      #recDetailTable .mobile-stock-table tbody,
+      #moversTables .mobile-stock-table tbody { display:block; width:100%; }
+      #checkTable .mobile-stock-table tr.stock-data-row,
+      #recDetailTable .mobile-stock-table tr.stock-data-row,
+      #moversTables .mobile-stock-table tr.stock-data-row {
+        display:grid; grid-template-columns:1fr 1fr; gap:0;
+        width:100%; margin:12px 0; padding:10px 12px;
+        border:1px solid #dfe3e8; border-radius:12px; background:#fff;
+        box-shadow:0 2px 8px rgba(0,0,0,.06); box-sizing:border-box;
+      }
+      #checkTable .mobile-stock-table td,
+      #recDetailTable .mobile-stock-table td,
+      #moversTables .mobile-stock-table td {
+        display:flex; justify-content:space-between; align-items:center; gap:8px;
+        min-width:0; padding:7px 5px; border:0; border-bottom:1px solid #f0f1f3;
+        text-align:right; white-space:normal; overflow-wrap:anywhere;
+      }
+      #checkTable .mobile-stock-table td::before,
+      #recDetailTable .mobile-stock-table td::before,
+      #moversTables .mobile-stock-table td::before {
+        content:attr(data-label); flex:0 0 auto; font-size:11px; color:#6b7280;
+        font-weight:600; text-align:left;
+      }
+      #checkTable .mobile-stock-table td.mobile-card-title,
+      #recDetailTable .mobile-stock-table td.mobile-card-title,
+      #moversTables .mobile-stock-table td.mobile-card-title {
+        grid-column:1 / -1; display:block; text-align:left; font-size:16px;
+        font-weight:700; padding:4px 5px 9px; border-bottom:1px solid #dfe3e8;
+      }
+      #checkTable .mobile-stock-table td.mobile-card-title::before,
+      #recDetailTable .mobile-stock-table td.mobile-card-title::before,
+      #moversTables .mobile-stock-table td.mobile-card-title::before { display:none; }
+      #checkTable .mobile-stock-table td.mobile-card-wide,
+      #recDetailTable .mobile-stock-table td.mobile-card-wide,
+      #moversTables .mobile-stock-table td.mobile-card-wide { grid-column:1 / -1; }
+      #checkTable .mobile-stock-table td:last-child,
+      #recDetailTable .mobile-stock-table td:last-child,
+      #moversTables .mobile-stock-table td:last-child { border-bottom:0; }
+      #moversTables { display:block !important; }
+      #moversTables section { min-width:0 !important; width:100%; }
+    }
+
+
+    @media (max-width: 900px) {
+      .stock-card-list { display:block; width:100%; }
+      .stock-mobile-card {
+        display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+        width:100%; box-sizing:border-box; margin:12px 0; padding:12px;
+        border:1px solid #d9dee5; border-radius:14px; background:#fff;
+        box-shadow:0 3px 10px rgba(0,0,0,.08); overflow:hidden;
+      }
+      .stock-mobile-card-head {
+        grid-column:1/-1; padding:2px 2px 10px; margin-bottom:3px;
+        border-bottom:1px solid #dfe3e8; font-size:16px; font-weight:700;
+        line-height:1.45; overflow-wrap:anywhere;
+      }
+      .stock-mobile-card-item {
+        min-width:0; display:flex; flex-direction:column; gap:3px;
+        padding:8px 5px; border-bottom:1px solid #f0f1f3;
+      }
+      .stock-mobile-card-item.wide { grid-column:1/-1; }
+      .stock-mobile-card-label { color:#6b7280; font-size:11px; font-weight:600; }
+      .stock-mobile-card-value { font-size:14px; font-weight:600; overflow-wrap:anywhere; }
+      .stock-mobile-card-value.value-positive { color:#15803d; }
+      .stock-mobile-card-value.value-negative { color:#dc2626; }
+      .stock-mobile-card-value.score-high { color:#15803d; }
+      .stock-mobile-card-value.score-low { color:#dc2626; }
+      #moversTables section { width:100%; min-width:0 !important; }
+    }
+
+
+    @media (max-width: 900px) {
+      #recDetailTable .ai-rec-card-list { width:100%; overflow:visible; }
+      #recDetailTable .ai-rec-mobile-card { display:grid !important; width:100% !important; }
+    }
+    @media (max-width: 380px) {
+      #recDetailTable .ai-rec-mobile-card { grid-template-columns:1fr; }
+      #recDetailTable .ai-rec-mobile-card .stock-mobile-card-head,
+      #recDetailTable .ai-rec-mobile-card .stock-mobile-card-item.wide { grid-column:1; }
+    }
+
+
+    @media (max-width:900px) {
+      #checkTable .batch-card-list { width:100%; overflow:visible; }
+      #checkTable .batch-mobile-card { display:grid !important; width:100% !important; }
+    }
+.favorite-source-badge {
+  display:inline-block; padding:3px 7px; border-radius:999px;
+  background:#fff7ed; border:1px solid #fed7aa; color:#9a3412;
+  font-size:11px; font-weight:700; white-space:nowrap;
+}
+
+@media (max-width:900px) {
+  #favList .favorite-card-list { display:block; width:100%; }
+  #favList .favorite-mobile-card {
+    width:100%; box-sizing:border-box; margin:12px 0; padding:13px 14px;
+    border:1px solid #dbe3ee; border-radius:14px; background:#fff;
+    box-shadow:0 3px 10px rgba(0,0,0,.07);
+  }
+  #favList .favorite-mobile-card-head {
+    display:flex; flex-wrap:wrap; align-items:center; gap:5px;
+    padding-bottom:10px; margin-bottom:3px; border-bottom:1px solid #e5e7eb;
+    font-size:16px; font-weight:700;
+  }
+  #favList .favorite-rank {
+    display:inline-flex; align-items:center; justify-content:center;
+    min-width:24px; height:24px; border-radius:999px; background:#f1f5f9;
+    font-size:12px; color:#475569;
+  }
+  #favList .favorite-mobile-row {
+    display:grid; grid-template-columns:5em minmax(0,1fr); gap:8px;
+    padding:9px 2px; border-bottom:1px solid #f0f1f3;
+  }
+  #favList .favorite-mobile-row > span { color:#6b7280; font-size:12px; font-weight:600; }
+  #favList .favorite-mobile-row > strong { min-width:0; overflow-wrap:anywhere; font-size:14px; }
+  #favList .favorite-mobile-actions { padding-top:11px; text-align:right; }
+  #favList .favorite-mobile-actions .btn { width:100%; }
+}
+
+/* お気に入り：900px以下は必ず1銘柄1カード。JSの画面幅判定に依存しない */
+.favorite-list-wrap { max-height:560px; overflow-y:auto; border:1px solid #eee; border-radius:8px; }
+.favorite-responsive-table { width:100%; border-collapse:collapse; }
+
+@media (max-width:900px) {
+  #favList .favorite-list-wrap {
+    max-height:none !important; overflow:visible !important; border:0 !important;
+  }
+  #favList .favorite-responsive-table,
+  #favList .favorite-responsive-table tbody {
+    display:block !important; width:100% !important;
+  }
+  #favList .favorite-responsive-table thead { display:none !important; }
+  #favList .favorite-responsive-table tr.favorite-card-row {
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    width:100% !important; margin:12px 0 !important; padding:12px !important;
+    border:1px solid #d9dee5 !important; border-radius:14px !important;
+    background:#fff !important; box-shadow:0 3px 10px rgba(0,0,0,.08) !important;
+  }
+  #favList .favorite-responsive-table td {
+    display:flex !important; flex-direction:column !important; gap:3px !important;
+    min-width:0 !important; padding:8px 5px !important;
+    border:0 !important; border-bottom:1px solid #f0f1f3 !important;
+    text-align:left !important;
+  }
+  #favList .favorite-responsive-table td::before {
+    content:attr(data-label); color:#6b7280; font-size:11px; font-weight:600;
+  }
+  #favList .favorite-responsive-table td.favorite-number {
+    display:none !important;
+  }
+  #favList .favorite-responsive-table td.favorite-code,
+  #favList .favorite-responsive-table td.favorite-name {
+    grid-column:span 1;
+  }
+  #favList .favorite-responsive-table td.favorite-code a,
+  #favList .favorite-responsive-table td.favorite-name a {
+    font-size:16px; font-weight:700; overflow-wrap:anywhere;
+  }
+  #favList .favorite-responsive-table td.favorite-action {
+    grid-column:1/-1 !important; border-bottom:0 !important; padding-top:10px !important;
+  }
+  #favList .favorite-responsive-table td.favorite-action .btn { width:100% !important; }
+}
+
+/* ===== 全一覧共通: PC=表 / 900px以下=カード ===== */
+@media (max-width:900px) {
+  #checkTable .mobile-stock-table-wrap, #recDetailTable .mobile-stock-table-wrap,
+  #moversTables .mobile-stock-table-wrap, #benefitTable .benefit-table-wrap,
+  #favList .favorite-list-wrap { max-height:none !important; overflow:visible !important; border:0 !important; }
+
+  #checkTable .mobile-stock-table, #recDetailTable .mobile-stock-table,
+  #moversTables .mobile-stock-table, #benefitTable .benefit-table,
+  #favList .favorite-responsive-table,
+  #checkTable tbody, #recDetailTable tbody, #moversTables tbody,
+  #benefitTable tbody, #favList .favorite-responsive-table tbody {
+    display:block !important; width:100% !important; min-width:0 !important;
+  }
+  #checkTable thead, #recDetailTable thead, #moversTables thead,
+  #benefitTable thead, #favList .favorite-responsive-table thead { display:none !important; }
+
+  #checkTable tr.stock-data-row, #recDetailTable tr.stock-data-row,
+  #moversTables tr.stock-data-row, #benefitTable tbody > tr,
+  #favList tr.favorite-card-row {
+    display:grid !important; grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    width:100% !important; margin:12px 0 !important; padding:12px !important;
+    border:1px solid #d9dee5 !important; border-radius:14px !important;
+    background:#fff !important; box-shadow:0 3px 10px rgba(0,0,0,.08) !important;
+  }
+  #checkTable tr.stock-data-row > td, #recDetailTable tr.stock-data-row > td,
+  #moversTables tr.stock-data-row > td, #benefitTable tbody > tr > td,
+  #favList tr.favorite-card-row > td {
+    display:flex !important; flex-direction:column !important; gap:3px !important;
+    min-width:0 !important; padding:8px 5px !important; border:0 !important;
+    border-bottom:1px solid #f0f1f3 !important; text-align:left !important; overflow-wrap:anywhere;
+  }
+  #checkTable td::before, #recDetailTable td::before, #moversTables td::before,
+  #benefitTable td::before, #favList tr.favorite-card-row > td::before {
+    content:attr(data-label); color:#6b7280; font-size:11px; font-weight:600;
+  }
+  #checkTable td.mobile-card-title, #recDetailTable td.mobile-card-title,
+  #moversTables td.mobile-card-title {
+    grid-column:1/-1 !important; font-size:16px; font-weight:700;
+    padding-bottom:10px !important; border-bottom:1px solid #dfe3e8 !important;
+  }
+  #checkTable td.mobile-card-title::before, #recDetailTable td.mobile-card-title::before,
+  #moversTables td.mobile-card-title::before { display:none !important; }
+  #checkTable td.mobile-card-wide, #recDetailTable td.mobile-card-wide,
+  #moversTables td.mobile-card-wide, #benefitTable td:nth-child(6),
+  #benefitTable td:nth-child(7), #benefitTable td:nth-child(9),
+  #benefitTable td:nth-child(10), #favList td.favorite-action { grid-column:1/-1 !important; }
+  #benefitTable td:last-child .btn, #favList td.favorite-action .btn { width:100% !important; }
+  #favList td.favorite-number { display:none !important; }
+}
+
+.intraday-cell{display:table-cell;min-width:360px;vertical-align:top}
+.intraday-outlook{width:100%;padding:10px;border-top:2px solid #e2e8f0;background:#f8fafc;border-radius:10px}
+.intraday-title{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:700;margin-bottom:8px}
+.intraday-slots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.intraday-slot{padding:7px 5px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;text-align:center}
+.intraday-slot span,.intraday-slot strong,.intraday-slot small{display:block}.intraday-slot span{font-size:11px;color:#475569;font-weight:700}.intraday-slot strong{font-size:12px;margin-top:3px}.intraday-slot small{font-size:9px;color:#64748b;margin-top:2px}
+.intraday-up{color:#dc2626}.intraday-down{color:#2563eb}.intraday-flat{color:#b45309}.intraday-caution{margin-top:7px;color:#64748b;font-size:10px;line-height:1.45}
+@media(max-width:900px){
+ #checkTable td.intraday-cell,#recDetailTable td.intraday-cell,#moversTables td.intraday-cell{display:block!important;grid-column:1/-1!important;padding:0!important;border-bottom:0!important}
+ #checkTable td.intraday-cell::before,#recDetailTable td.intraday-cell::before,#moversTables td.intraday-cell::before{display:none!important}
+ .intraday-slots{grid-template-columns:repeat(2,minmax(0,1fr))}.intraday-slot:last-child{grid-column:1/-1}
+}
+
+#detailEvaluationResult .intraday-outlook{margin:14px 0}
+#detailEvaluationResult .intraday-title{font-size:1rem}
+@media(max-width:600px){
+ #detailEvaluationResult .intraday-slots{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #detailEvaluationResult .intraday-slot:last-child{grid-column:1/-1}
+}
+
+/* v27.7: スマホでも大引け予想を必ずカード内に表示 */
+.closing-forecast-detail{display:block!important;visibility:visible!important;opacity:1!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;overflow-wrap:anywhere!important;word-break:normal!important}
+.closing-forecast-head{display:block!important;margin:10px 0 12px!important;padding:12px!important;border:1px solid #cbd5e1!important;border-radius:10px!important;background:#fff!important;text-align:center!important}
+.closing-forecast-head .closing-price{display:block!important;font-size:20px!important;line-height:1.35!important;margin-top:4px!important}
+@media(max-width:900px){
+ #checkTable td.intraday-cell .intraday-outlook, #recDetailTable td.intraday-cell .intraday-outlook, #moversTables td.intraday-cell .intraday-outlook, #detailEvaluationResult .intraday-outlook{display:block!important;visibility:visible!important;overflow:visible!important;height:auto!important;max-height:none!important;min-width:0!important;width:100%!important;box-sizing:border-box!important}
+ #checkTable td.intraday-cell .closing-forecast-detail, #recDetailTable td.intraday-cell .closing-forecast-detail, #moversTables td.intraday-cell .closing-forecast-detail, #detailEvaluationResult .closing-forecast-detail{display:block!important;grid-column:1/-1!important;visibility:visible!important;height:auto!important;max-height:none!important;overflow:visible!important}
+}
+
+
+/* ===== v31: PC版も一覧をカード形式で表示 ===== */
+/* 一括チェック / AIおすすめ / 値上がり・値下がり */
+#checkTable .mobile-stock-table-wrap,
+#recDetailTable .mobile-stock-table-wrap,
+#moversTables .mobile-stock-table-wrap {
+  max-height:none !important; overflow:visible !important; border:0 !important;
+}
+#checkTable .mobile-stock-table,
+#recDetailTable .mobile-stock-table,
+#moversTables .mobile-stock-table {
+  display:block !important; width:100% !important; border:0 !important; background:transparent !important;
+}
+#checkTable .mobile-stock-table thead,
+#checkTable .mobile-stock-table > tbody > tr:first-child:not(.stock-data-row),
+#recDetailTable .mobile-stock-table thead,
+#recDetailTable .mobile-stock-table > tbody > tr:first-child:not(.stock-data-row),
+#moversTables .mobile-stock-table thead {
+  display:none !important;
+}
+#checkTable .mobile-stock-table tbody,
+#recDetailTable .mobile-stock-table tbody,
+#moversTables .mobile-stock-table tbody {
+  display:block !important; width:100% !important;
+}
+#checkTable .mobile-stock-table tr.stock-data-row,
+#recDetailTable .mobile-stock-table tr.stock-data-row,
+#moversTables .mobile-stock-table tr.stock-data-row {
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:0 !important; width:100% !important; margin:14px 0 !important; padding:14px 16px !important;
+  border:1px solid #d9e2ec !important; border-radius:14px !important; background:#fff !important;
+  box-shadow:0 3px 12px rgba(15,23,42,.07) !important; box-sizing:border-box !important;
+}
+#checkTable .mobile-stock-table td,
+#recDetailTable .mobile-stock-table td,
+#moversTables .mobile-stock-table td {
+  display:flex !important; flex-direction:column !important; align-items:flex-start !important;
+  justify-content:flex-start !important; gap:4px !important; min-width:0 !important;
+  padding:9px 10px !important; border:0 !important; border-bottom:1px solid #f0f3f7 !important;
+  text-align:left !important; white-space:normal !important; overflow-wrap:anywhere !important;
+}
+#checkTable .mobile-stock-table td::before,
+#recDetailTable .mobile-stock-table td::before,
+#moversTables .mobile-stock-table td::before {
+  content:attr(data-label) !important; color:#64748b !important; font-size:11px !important;
+  font-weight:700 !important; text-align:left !important;
+}
+#checkTable .mobile-stock-table td.mobile-card-title,
+#recDetailTable .mobile-stock-table td.mobile-card-title,
+#moversTables .mobile-stock-table td.mobile-card-title {
+  grid-column:1/-1 !important; display:block !important; font-size:17px !important; font-weight:700 !important;
+  padding:4px 8px 11px !important; border-bottom:1px solid #dfe6ee !important;
+}
+#checkTable .mobile-stock-table td.mobile-card-title::before,
+#recDetailTable .mobile-stock-table td.mobile-card-title::before,
+#moversTables .mobile-stock-table td.mobile-card-title::before { display:none !important; }
+#checkTable .mobile-stock-table td.mobile-card-wide,
+#recDetailTable .mobile-stock-table td.mobile-card-wide,
+#moversTables .mobile-stock-table td.mobile-card-wide,
+#checkTable td.intraday-cell,
+#recDetailTable td.intraday-cell,
+#moversTables td.intraday-cell { grid-column:1/-1 !important; }
+#checkTable td.intraday-cell,
+#recDetailTable td.intraday-cell,
+#moversTables td.intraday-cell {
+  display:block !important; padding:10px 6px 0 !important; border-bottom:0 !important;
+}
+#checkTable td.intraday-cell::before,
+#recDetailTable td.intraday-cell::before,
+#moversTables td.intraday-cell::before { display:none !important; }
+
+/* 株主優待：PCでもカード。広い画面では2社ずつ */
+.benefit-table-wrap { overflow:visible !important; }
+.benefit-table { display:block !important; width:100% !important; min-width:0 !important; border:0 !important; }
+.benefit-table thead { display:none !important; }
+.benefit-table tbody {
+  display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:14px !important; width:100% !important;
+}
+.benefit-table tr {
+  display:block !important; width:100% !important; margin:0 !important; padding:14px 16px !important;
+  box-sizing:border-box !important; border:1px solid #d9e2ec !important; border-radius:14px !important;
+  background:#fff !important; box-shadow:0 3px 12px rgba(15,23,42,.07) !important;
+}
+.benefit-table td {
+  display:grid !important; grid-template-columns:7em minmax(0,1fr) !important; gap:10px !important;
+  width:100% !important; padding:8px 0 !important; box-sizing:border-box !important;
+  border:0 !important; border-bottom:1px solid #eef2f7 !important;
+  text-align:left !important; white-space:normal !important; word-break:break-word !important;
+}
+.benefit-table td:last-child { border-bottom:0 !important; }
+.benefit-table td::before { font-weight:700 !important; color:#64748b !important; font-size:.82rem !important; }
+.benefit-table td:nth-child(1)::before { content:"権利確定日" !important; }
+.benefit-table td:nth-child(2)::before { content:"会社コード" !important; }
+.benefit-table td:nth-child(3)::before { content:"会社名" !important; }
+.benefit-table td:nth-child(4)::before { content:"現在株価" !important; }
+.benefit-table td:nth-child(5)::before { content:"業種" !important; }
+.benefit-table td:nth-child(6)::before { content:"権利条件" !important; }
+.benefit-table td:nth-child(7)::before { content:"優待内容" !important; }
+.benefit-table td:nth-child(8)::before { content:"優待状況" !important; }
+.benefit-table td:nth-child(9)::before { content:"情報元" !important; }
+.benefit-table td:nth-child(10)::before { content:"お気に入り" !important; }
+
+/* お気に入り：PCでもカード。広い画面では2銘柄ずつ */
+#favList .favorite-list-wrap { max-height:none !important; overflow:visible !important; border:0 !important; }
+#favList .favorite-responsive-table { display:block !important; width:100% !important; }
+#favList .favorite-responsive-table thead { display:none !important; }
+#favList .favorite-responsive-table tbody {
+  display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:14px !important;
+}
+#favList .favorite-responsive-table tr.favorite-card-row {
+  display:grid !important; grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+  width:100% !important; margin:0 !important; padding:14px !important;
+  border:1px solid #d9e2ec !important; border-radius:14px !important; background:#fff !important;
+  box-shadow:0 3px 12px rgba(15,23,42,.07) !important;
+}
+#favList .favorite-responsive-table td {
+  display:flex !important; flex-direction:column !important; gap:4px !important;
+  min-width:0 !important; padding:9px 6px !important; border:0 !important;
+  border-bottom:1px solid #f0f3f7 !important; text-align:left !important;
+}
+#favList .favorite-responsive-table td::before {
+  content:attr(data-label) !important; color:#64748b !important; font-size:11px !important; font-weight:700 !important;
+}
+#favList .favorite-responsive-table td.favorite-number { display:none !important; }
+#favList .favorite-responsive-table td.favorite-action { grid-column:1/-1 !important; border-bottom:0 !important; }
+#favList .favorite-responsive-table td.favorite-action .btn { width:100% !important; }
+
+/* PCではカード内の当日見通しを横に見やすく */
+@media (min-width:901px) {
+  .intraday-slots { grid-template-columns:repeat(5,minmax(0,1fr)) !important; }
+  #moversTables { gap:18px !important; align-items:flex-start !important; }
+  #moversTables section { min-width:0 !important; }
+}
+
+/* スマホは従来どおり1～2列で読みやすく */
+@media (max-width:900px) {
+  #checkTable .mobile-stock-table tr.stock-data-row,
+  #recDetailTable .mobile-stock-table tr.stock-data-row,
+  #moversTables .mobile-stock-table tr.stock-data-row {
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+  }
+  .benefit-table tbody,
+  #favList .favorite-responsive-table tbody { grid-template-columns:1fr !important; }
+}
+@media (max-width:520px) {
+  #checkTable .mobile-stock-table tr.stock-data-row,
+  #recDetailTable .mobile-stock-table tr.stock-data-row,
+  #moversTables .mobile-stock-table tr.stock-data-row {
+    grid-template-columns:1fr !important;
+  }
+  #checkTable .mobile-stock-table td.mobile-card-title,
+  #recDetailTable .mobile-stock-table td.mobile-card-title,
+  #moversTables .mobile-stock-table td.mobile-card-title,
+  #checkTable .mobile-stock-table td.mobile-card-wide,
+  #recDetailTable .mobile-stock-table td.mobile-card-wide,
+  #moversTables .mobile-stock-table td.mobile-card-wide,
+  #checkTable td.intraday-cell,#recDetailTable td.intraday-cell,#moversTables td.intraday-cell {
+    grid-column:1 !important;
+  }
+}
+
+
+
+/* =========================================================
+   v32 FINTECH UI REFRESH
+   UI/CSS only — calculation logic / API / JavaScript untouched
+   ========================================================= */
+:root{
+  --v32-bg:#f4f7fb;
+  --v32-surface:#ffffff;
+  --v32-surface-2:#f8fafc;
+  --v32-ink:#102033;
+  --v32-muted:#64748b;
+  --v32-line:#e2e8f0;
+  --v32-primary:#1769e0;
+  --v32-primary-dark:#0f4fae;
+  --v32-primary-soft:#eaf2ff;
+  --v32-positive:#0b8f55;
+  --v32-positive-soft:#e9f8f1;
+  --v32-negative:#d14343;
+  --v32-negative-soft:#fff0f0;
+  --v32-warning:#b56a00;
+  --v32-warning-soft:#fff7e6;
+  --v32-shadow:0 10px 30px rgba(31,55,88,.07);
+  --v32-shadow-hover:0 16px 38px rgba(31,55,88,.11);
+  --v32-radius:18px;
+}
+html{scroll-behavior:smooth;background:var(--v32-bg);}
+body{
+  background:
+    radial-gradient(circle at 12% -5%,rgba(23,105,224,.08),transparent 30rem),
+    linear-gradient(180deg,#f7faff 0,#f4f7fb 420px,#f4f7fb 100%);
+  color:var(--v32-ink);
+  font-family:"Segoe UI","Hiragino Sans","Yu Gothic UI","Meiryo",sans-serif;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--v32-primary);text-underline-offset:3px;}
+a:hover{color:var(--v32-primary-dark);}
+.header{
+  position:relative;
+  overflow:hidden;
+  padding:24px max(24px,calc((100vw - 1240px)/2));
+  background:linear-gradient(118deg,#0b315f 0%,#1259b8 58%,#1684e8 100%);
+  box-shadow:0 8px 26px rgba(10,55,105,.18);
+}
+.header::after{
+  content:"";position:absolute;right:-120px;top:-160px;width:420px;height:420px;
+  border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none;
+}
+.header h1{
+  position:relative;z-index:1;margin:0 0 8px;font-size:clamp(1.28rem,2.2vw,1.8rem);
+  letter-spacing:.01em;font-weight:800;
+}
+.header p{
+  position:relative;z-index:1;max-width:1120px;margin:4px 0;color:rgba(255,255,255,.84);
+  font-size:.82rem;line-height:1.55;
+}
+
+/* top navigation: compact professional pill bar */
+.nav{
+  position:sticky;top:0;z-index:40;
+  max-width:1240px;margin:18px auto 0;padding:10px 12px;
+  display:flex;gap:7px;overflow-x:auto;scrollbar-width:thin;
+  background:rgba(255,255,255,.88);backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(226,232,240,.92);border-radius:18px;
+  box-shadow:0 10px 28px rgba(31,55,88,.08);
+}
+.nav a{
+  flex:0 0 auto;min-height:42px;padding:9px 13px;border:1px solid transparent;border-radius:12px;
+  background:transparent;color:#475569;font-size:.82rem;font-weight:700;box-shadow:none;
+  white-space:nowrap;transition:.18s ease;
+}
+.nav a:hover{
+  transform:none;background:#f1f5f9;border-color:#e2e8f0;box-shadow:none;color:#0f4fae;
+}
+.nav a.active{
+  color:#fff;background:linear-gradient(135deg,#1769e0,#0f56c4);
+  border:1px solid #1769e0;box-shadow:0 6px 16px rgba(23,105,224,.24);
+}
+.container{max-width:1240px;padding:24px 18px 60px;}
+.page{animation:v32fade .22s ease;}
+@keyframes v32fade{from{opacity:.25;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* cards / sections */
+.card,.detail-eval-card,.fx-card{
+  border:1px solid var(--v32-line);
+  border-radius:var(--v32-radius);
+  background:rgba(255,255,255,.96);
+  box-shadow:var(--v32-shadow);
+}
+.card{
+  padding:clamp(18px,2.4vw,28px);
+  margin-bottom:20px;
+}
+.card:hover{border-color:#d5dfeb;}
+.card h2{
+  display:flex;align-items:center;gap:9px;margin:0 0 14px;
+  color:#102a47;font-size:clamp(1.08rem,1.8vw,1.32rem);font-weight:800;letter-spacing:.005em;
+}
+.card h2::after{
+  content:"";height:2px;flex:1;margin-left:8px;
+  background:linear-gradient(90deg,#dce8f8,transparent);
+}
+.card h3{color:#173a60;margin-top:22px;font-size:1rem;}
+.muted,.reason{color:var(--v32-muted)!important;}
+
+/* home hierarchy */
+#page-home>.card:first-child{
+  padding:clamp(24px,3.4vw,38px);
+  background:linear-gradient(135deg,#ffffff 0%,#f5f9ff 100%);
+  border-color:#d8e6f8;
+}
+#page-home>.card:first-child h2{
+  font-size:clamp(1.35rem,2.4vw,1.9rem);color:#0d3565;
+}
+#page-home>.card:first-child p{max-width:980px;}
+#page-home>.card:first-child p:last-child a{
+  display:inline-block;margin:5px 5px 5px 0;padding:8px 12px;border-radius:10px;
+  background:#fff;border:1px solid #d8e6f8;text-decoration:none;font-weight:700;
+}
+
+/* forms */
+.form-row{gap:10px;margin:14px 0;}
+input[type=text],input[type=number],select,textarea{
+  min-height:44px!important;padding:10px 13px!important;
+  border:1px solid #cbd5e1!important;border-radius:11px!important;
+  background:#fff!important;color:var(--v32-ink)!important;font:inherit!important;
+  box-shadow:0 1px 2px rgba(15,23,42,.03);
+  transition:border-color .16s,box-shadow .16s;
+}
+input:focus,select:focus,textarea:focus{
+  outline:none!important;border-color:#5b9cf1!important;
+  box-shadow:0 0 0 4px rgba(23,105,224,.11)!important;
+}
+::placeholder{color:#94a3b8;}
+
+/* buttons */
+.btn{
+  min-height:40px;padding:9px 15px;border-radius:11px;font-weight:750;
+  letter-spacing:.005em;transition:transform .14s,box-shadow .14s,background .14s;
+}
+.btn:hover{transform:translateY(-1px);}
+.btn-primary{
+  background:linear-gradient(135deg,#1769e0,#0f56c4);color:#fff;
+  box-shadow:0 6px 15px rgba(23,105,224,.20);
+}
+.btn-primary:hover{background:linear-gradient(135deg,#155fc9,#0d4cae);box-shadow:0 8px 18px rgba(23,105,224,.27);}
+.btn-secondary{background:#f1f5f9;color:#334155;border:1px solid #dbe4ee;}
+.btn-secondary:hover{background:#e9eff6;}
+.btn-danger{background:#d14343;color:#fff;box-shadow:0 5px 12px rgba(209,67,67,.15);}
+.btn-sm{min-height:34px;padding:6px 10px;border-radius:9px;font-size:.78rem;}
+
+/* messages */
+.msg{border:1px solid transparent;border-radius:12px;padding:11px 14px;}
+.msg-ok{background:var(--v32-positive-soft);color:#087246;border-color:#c9efdc;}
+.msg-err{background:var(--v32-negative-soft);color:#b62f2f;border-color:#f3cece;}
+.msg-info{background:var(--v32-primary-soft);color:#174f9b;border-color:#d1e2fb;}
+
+/* recommendation/value badges */
+.recommendation-badge{
+  padding:5px 10px;border-radius:999px;font-size:.76rem;font-weight:800;border:1px solid transparent;
+}
+.recommendation-strong{background:var(--v32-positive-soft);color:#087246;border-color:#c7edd9;}
+.recommendation-normal{background:var(--v32-warning-soft);color:#9a5b00;border-color:#f3ddb5;}
+.recommendation-watch{background:#eef2f7;color:#536274;border-color:#dfe6ee;}
+.recommendation-cautious{background:var(--v32-negative-soft);color:#b63131;border-color:#f0cdcd;}
+.recommendation-unavailable{background:#f1f5f9;color:#64748b;border-color:#e2e8f0;}
+.value-positive,.score-high,.value-cheap{color:var(--v32-positive)!important;}
+.value-negative,.score-low,.value-expensive{color:var(--v32-negative)!important;}
+.score-mid{color:var(--v32-warning)!important;}
+
+/* universal data-card polish */
+#checkTable .mobile-stock-table tr.stock-data-row,
+#recDetailTable .mobile-stock-table tr.stock-data-row,
+#moversTables .mobile-stock-table tr.stock-data-row,
+.benefit-table tr,
+#favList .favorite-responsive-table tr.favorite-card-row{
+  border:1px solid var(--v32-line)!important;border-radius:16px!important;
+  box-shadow:0 5px 18px rgba(31,55,88,.055)!important;
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+  overflow:hidden;
+}
+#checkTable .mobile-stock-table tr.stock-data-row:hover,
+#recDetailTable .mobile-stock-table tr.stock-data-row:hover,
+#moversTables .mobile-stock-table tr.stock-data-row:hover,
+.benefit-table tr:hover,
+#favList .favorite-responsive-table tr.favorite-card-row:hover{
+  transform:translateY(-2px);box-shadow:var(--v32-shadow-hover)!important;border-color:#cbd9ea!important;
+}
+#checkTable .mobile-stock-table td.mobile-card-title,
+#recDetailTable .mobile-stock-table td.mobile-card-title,
+#moversTables .mobile-stock-table td.mobile-card-title{
+  color:#102f52!important;font-size:1.05rem!important;background:linear-gradient(90deg,#f7faff,#fff)!important;
+}
+#checkTable .mobile-stock-table td::before,
+#recDetailTable .mobile-stock-table td::before,
+#moversTables .mobile-stock-table td::before,
+#favList .favorite-responsive-table td::before,
+.benefit-table td::before{
+  color:#7b8ba0!important;letter-spacing:.02em;
+}
+
+/* intraday / closing forecast = focal module */
+.intraday-card{
+  border:1px solid #d6e3f3!important;border-radius:16px!important;
+  background:linear-gradient(180deg,#fbfdff 0%,#f6f9fd 100%)!important;
+  box-shadow:none!important;overflow:hidden;
+}
+.intraday-title{
+  padding:12px 14px!important;margin:0!important;color:#103b6d!important;
+  background:linear-gradient(90deg,#eaf3ff,rgba(234,243,255,.2))!important;
+  border-bottom:1px solid #dbe8f7!important;font-weight:850!important;
+}
+.intraday-slot{
+  border:1px solid #e0e8f1!important;border-radius:12px!important;background:#fff!important;
+  box-shadow:0 2px 8px rgba(31,55,88,.04)!important;
+}
+.closing-forecast-box{
+  margin-top:14px!important;padding:18px!important;border:1px solid #cfe0f5!important;
+  border-radius:16px!important;background:linear-gradient(135deg,#eef6ff 0%,#fff 72%)!important;
+  box-shadow:0 7px 20px rgba(23,105,224,.07)!important;
+}
+.closing-forecast-box h4,.closing-forecast-box strong{color:#103b6d;}
+.closing-forecast-detail{
+  line-height:1.85!important;color:#263b52!important;
+  background:#fff!important;border:1px solid #e1e9f2!important;border-radius:12px!important;
+  padding:14px!important;
+}
+
+/* detail evaluation */
+.detail-eval-card{padding:22px;}
+.detail-meta{gap:12px;}
+.detail-meta>div{
+  padding:13px;background:linear-gradient(180deg,#f8fbff,#f4f7fb);
+  border:1px solid #e2e8f0;border-radius:13px;
+}
+.detail-outlook{
+  padding:17px;border:1px solid #dbe5f0;border-radius:15px;background:#fbfdff;
+}
+.detail-view{padding:5px 10px;background:var(--v32-primary-soft);color:#1557a8;}
+
+/* FX */
+.fx-card{padding:16px 18px;margin:14px 0;overflow:hidden;}
+.fx-card summary{color:#153a60;font-weight:800;}
+.fx-rate{color:#0f3156;font-size:clamp(1.65rem,4vw,2.15rem);letter-spacing:-.02em;}
+.fx-news-item{border-bottom:1px solid #edf1f5;padding:12px 0;}
+
+/* tables that may remain in static/help areas */
+table{border-collapse:separate;border-spacing:0;font-size:.88rem;}
+th{background:#f5f8fc;color:#53657a;font-size:.78rem;text-transform:none;}
+th,td{border-bottom:1px solid #edf1f5;}
+tr:hover{background:#f8fbff;}
+
+/* disclosure / feedback blocks */
+fieldset{color:#334155;}
+#tipStatus,#feedbackStatus{margin-top:10px;}
+
+/* loading */
+.loading{color:var(--v32-primary);font-weight:700;}
+.loading::after{content:"";display:inline-block;width:12px;height:12px;margin-left:8px;border:2px solid #b8d3f7;border-top-color:#1769e0;border-radius:50%;vertical-align:-2px;animation:v32spin .8s linear infinite;}
+@keyframes v32spin{to{transform:rotate(360deg)}}
+
+/* desktop layout refinements */
+@media (min-width:901px){
+  .container{padding-top:26px;}
+  #page-detail>.card,#page-fav>.card,#page-check>.card,#page-fx>.card,
+  #page-rec>.card,#page-movers>.card,#page-benefits>.card{
+    padding:28px;
+  }
+  .benefit-table tbody{gap:18px!important;}
+  #favList .favorite-responsive-table tbody{gap:18px!important;}
+}
+
+/* tablet + mobile: same visual language, simpler spacing */
+@media (max-width:900px){
+  body{background:#f4f7fb;}
+  .header{padding:18px 16px;}
+  .header p{font-size:.76rem;}
+  .nav{
+    position:sticky;top:0;margin:10px 10px 0;padding:8px;border-radius:15px;
+    display:flex;gap:6px;overflow-x:auto;
+  }
+  .nav a{min-height:39px!important;padding:8px 11px!important;border-radius:10px!important;font-size:.78rem!important;}
+  .container{padding:14px 10px 42px;}
+  .card{padding:17px 15px;border-radius:15px;margin-bottom:13px;}
+  .card h2{font-size:1.06rem;}
+  .card h2::after{display:none;}
+  .form-row{align-items:stretch;}
+  .form-row input[type=text],.form-row input[type=number],.form-row select{width:100%!important;flex:1 1 100%!important;}
+  .form-row>.btn{flex:1 1 auto;}
+  .detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  #fxChartDiv{height:340px!important;}
+  .closing-forecast-box{padding:14px!important;}
+}
+@media (max-width:520px){
+  .header h1{font-size:1.12rem;}
+  .header p:nth-of-type(n+3){display:none;}
+  .container{padding-left:8px;padding-right:8px;}
+  .card{padding:15px 13px;border-radius:14px;}
+  .detail-meta{grid-template-columns:1fr 1fr!important;gap:8px;}
+  .detail-meta>div{padding:10px;}
+  .btn{width:auto;min-height:42px;}
+  #fxChartDiv{height:300px!important;}
+  .benefit-table tr,
+  #favList .favorite-responsive-table tr.favorite-card-row,
+  #checkTable .mobile-stock-table tr.stock-data-row,
+  #recDetailTable .mobile-stock-table tr.stock-data-row,
+  #moversTables .mobile-stock-table tr.stock-data-row{
+    border-radius:14px!important;
+  }
+}
+
+</style>
+</head>
+<body>
+  <div class="header">
+    <h1>📈 日本株チェッカー｜株価・業績評価・今日の動向・大引け予想</h1>
+    <p>株価・企業情報は取得時点のデータを使用しており、実際の市場データとは遅延や差異が生じる場合があります。本アプリの情報は投資判断の参考として提供するものであり、特定の銘柄の売買を推奨するものではありません。投資に関する最終的な判断は、ご自身の責任でお願いいたします。</p>
+    <p>本アプリを気に入っていただけましたら、ホーム画面中ほどの「応援する」からご支援いただけると大変励みになります。</p>
+    <p>機能のご要望や不具合、ご意見・ご感想などがございましたら、「改善要望を送る」からお気軽にお寄せください。</p>
+  </div>
+  <div class="nav">
+    <a href="#page-home" data-page="home" class="active">🏠 ホーム</a>
+    <a href="#page-detail" data-page="detail" class="">🔎 株銘柄詳細評価</a>
+    <a href="#page-fav" data-page="fav" class="">★ お気に入り</a>
+    <a href="#page-check" data-page="check" class="">📋 一括チェック</a>
+    <a href="#page-fx" data-page="fx" class="">💱 為替情報</a>
+    <a href="#page-rec" data-page="rec" class="">⭐ AIおすすめ銘柄</a>
+    <a href="#page-movers" data-page="movers" class="">📈 値上がり・値下がり</a>
+    <a href="#page-benefits" data-page="benefits" class="">🎁 株主優待検索</a>
+    <a href="#page-evaluation" data-page="evaluation" class="">📊 株価の評価方法</a>
+    <a href="#page-help" data-page="help" class="">❓ヘルプ</a>
+  </div>
+  <div class="container">
+    <div id="msg" class="msg"></div>
+
+    <!-- ホーム -->
+    <div id="page-home" class="page active">
+      <section class="card" aria-labelledby="seo-intro-title">
+        <h2 id="seo-intro-title">日本株のチェック・評価・今日の株価予想をまとめて確認</h2>
+        <p>日本株チェッカーは、日本株の銘柄をコードや会社名から検索し、<strong>株価・PER・ROE・PBR・RSI・MACD・移動平均・出来高・信用需給・決算・個別ニュース</strong>などをまとめて確認できる無料の株式分析ツールです。</p>
+        <p>株銘柄詳細評価、一括チェック、AIおすすめ銘柄、値上がり・値下がり、株主優待検索に加え、日経平均・TOPIX・NYダウ・S&amp;P500・NASDAQ・USD/JPYなどの市場情報も参考に、<strong>今日の動向見通しと大引け予想</strong>を表示します。</p>
+        <p class="muted">※ 表示される評価・確率・予想価格は取得データを基にしたモデル推定値で、将来の値動きや利益を保証するものではありません。投資判断はご自身の責任で行ってください。</p>
+        <p><a href="#page-detail" data-page="detail">個別銘柄を評価する</a> ｜ <a href="#page-check" data-page="check">複数銘柄を一括チェックする</a> ｜ <a href="#page-evaluation" data-page="evaluation">株価の評価方法を見る</a> ｜ <a href="#page-benefits" data-page="benefits">株主優待を検索する</a></p>
+      </section>
+      <div class="card">
+        <h2>ようこそ</h2>
+        <p>お気に入り管理・一括チェック・為替情報・おすすめ銘柄リストが使えます。</p>
+        <p>お気に入りはブラウザに自動保存され、<b>次回起動時も同じリストが表示</b>されます（同じPC・同じブラウザ）。</p>
+        <p class="muted">詳細は「❓ ヘルプ」を参照してください。</p>
+        <p class="muted">※ 株価取得はYahooの非公式APIを使用しています。</p>
+      </div>
+      <section class="card" aria-labelledby="seo-faq-title">
+        <h2 id="seo-faq-title">日本株チェック・評価について</h2>
+        <h3>日本株の評価では何を確認しますか？</h3>
+        <p>企業の収益性や割安度だけでなく、PER・PBR・ROE、移動平均、RSI、MACD、出来高、信用需給などを組み合わせて確認します。本アプリでは取得できた決算・ニュースや国内外の市場環境も表示します。</p>
+        <h3>今日の動向・大引け予想とは？</h3>
+        <p>当日の値動き、始値・高値・安値、出来高、テクニカル指標、市場全体の動向、取得できた決算・ニュースなどを材料にしたモデル推定です。上昇・下落確率や中心予想価格は参考情報であり、実際の終値を保証するものではありません。</p>
+        <h3>株価予想だけで売買判断できますか？</h3>
+        <p>いいえ。予想には誤差やデータ欠損があり、相場急変も起こります。企業の開示情報やリスクを確認し、複数の情報源と組み合わせて判断してください。</p>
+      </section>
+      <div class="card">
+        <h2>💝 応援する</h2>
+        <p>任意の金額を入力して、安全な決済ページから寄付金を送れます。</p>
+        <form class="form-row" onsubmit="submitTip(event)">
+          <label for="tipAmount">金額（円）</label>
+          <input type="number" id="tipAmount" min="100" max="1000000" step="1" value="" required style="width:150px;padding:8px 12px;border:1px solid #ccc;border-radius:6px;font-size:.95rem">
+          <button class="btn btn-primary" id="tipSubmit" type="submit">寄付</button>
+        </form>
+        <p id="tipStatus" class="muted" aria-live="polite">100円から1,000,000円まで指定できます。</p>
+      </div>
+      <div class="card">
+        <h2>✉️ 改善要望を送る</h2>
+        <p>不具合、ご意見、追加してほしい機能ありましたらお知らせください。</p>
+        <form style="display:grid;gap:12px;max-width:600px" onsubmit="submitFeedback(event)">
+          <fieldset style="border:0;padding:0;margin:0">
+            <legend style="font-weight:600;margin-bottom:8px">お問い合わせの種類</legend>
+            <div class="form-row" style="gap:16px">
+              <label><input type="radio" name="feedbackCategory" value="質問" required> 質問</label>
+              <label><input type="radio" name="feedbackCategory" value="不具合"> 不具合</label>
+              <label><input type="radio" name="feedbackCategory" value="要望"> 要望</label>
+              <label><input type="radio" name="feedbackCategory" value="感想"> 感想</label>
+            </div>
+          </fieldset>
+          <textarea id="feedbackMessage" rows="4" required maxlength="5000" placeholder="内容を入力してください" style="width:100%;padding:8px 12px;border:1px solid #ccc;border-radius:6px;font:inherit"></textarea>
+          <div><button class="btn btn-primary" id="feedbackSubmit" type="submit">送信する</button></div>
+        </form>
+        <p id="feedbackStatus" class="muted" aria-live="polite">入力した内容はサーバーへ送信されます。他の利用者には表示されません。</p>
+      </div>
+    </div>
+
+    
+    <!-- 株銘柄詳細評価 -->
+    <div id="page-detail" class="page">
+      <div class="card">
+        <h2>🔎 株銘柄詳細評価</h2>
+        <p>銘柄コード・日本語名称・英語名称から東証銘柄を検索し、短期・長期の参考見通しを表示します。</p>
+        <div class="form-row">
+          <input id="detailSearchInput" type="text" placeholder="例：7203 / トヨタ / Toyota" style="min-width:260px;flex:1"
+                 onkeydown="if(event.key==='Enter') searchDetailStocks()">
+          <button class="btn btn-primary" type="button" onclick="searchDetailStocks()">検索</button>
+        </div>
+        <div id="detailSearchResults" style="margin-top:12px"></div>
+        <div id="detailEvaluationResult" style="margin-top:16px"></div>
+      </div>
+    </div>
+
+<!-- お気に入り -->
+    <div id="page-fav" class="page">
+      <div class="card">
+        <h2>★ お気に入り管理</h2>
+        <div class="form-row">
+          <input type="text" id="addCode" placeholder="銘柄コードまたは会社名（例: 7203 / トヨタ）" style="width:280px" oninput="onSearchInput()">
+          <button class="btn btn-primary" onclick="addFavorite()">コードで追加</button>
+          <button class="btn btn-secondary btn-sm" onclick="refreshNames()">会社名を再取得</button>
+          <button class="btn btn-secondary btn-sm" onclick="restoreFavorites()">お気に入り復元</button>
+          <button class="btn btn-secondary btn-sm" onclick="resetFavorites()">初期値に戻す</button>
+        </div>
+        <div id="searchResults" style="margin:8px 0;"></div>
+        <div id="favList"></div>
+      </div>
+    </div>
+
+    <!-- 一括チェック -->
+    <div id="page-check" class="page">
+      <div class="card">
+        <h2>📋 お気に入り一括チェック</h2>
+        <button class="btn btn-primary" onclick="runCheck(false)">🔄 最新データを取得して一括チェック</button>
+        <p id="checkStatus" class="muted"></p>
+        <div id="checkTable"></div>
+      </div>
+    </div>
+
+
+    <!-- 為替 -->
+    <div id="page-fx" class="page">
+      <div class="card">
+        <h2>💱 為替情報（米ドル/円）</h2>
+        <button class="btn btn-secondary btn-sm" onclick="loadFxPage(true)">🔄 最新情報を取得</button>
+        <p id="fxStatus" class="muted"></p>
+        <details class="fx-card" open>
+          <summary>現在レート・見通しコメント</summary>
+          <div id="fxQuote"><p class="loading">為替情報を取得しています...</p></div>
+          <p class="muted">見通しは直近の為替推移に基づく簡易コメントです。将来の値動きを保証するものではありません。</p>
+        </details>
+        <details class="fx-card" open>
+          <summary>為替チャート</summary>
+          <div class="tf-btns" style="margin-top:10px">
+            <button class="btn btn-secondary btn-sm" onclick="loadFxChart('minute')">分足</button>
+            <button class="btn btn-secondary btn-sm" onclick="loadFxChart('hour')">時間足</button>
+            <button class="btn btn-primary btn-sm" onclick="loadFxChart('day')">日足</button>
+            <button class="btn btn-secondary btn-sm" onclick="loadFxChart('week')">週足</button>
+            <button class="btn btn-secondary btn-sm" onclick="loadFxChart('month')">月足</button>
+          </div>
+          <div id="fxChartDiv"></div>
+        </details>
+        <details class="fx-card" open>
+          <summary>為替関連ニュース</summary>
+          <div id="fxNews"><p class="loading">ニュースを取得しています...</p></div>
+        </details>
+      </div>
+    </div>
+
+    <!-- おすすめ -->
+    <div id="page-rec" class="page">
+      <div class="card">
+        <h2>⭐ AIおすすめ銘柄</h2>
+        <p class="muted">あくまでも参考リストです。投資助言ではありません。</p>
+        <button class="btn btn-primary" onclick="renderRecList(true)">🔄 最新データで再評価</button>
+        <div id="recList"></div>
+      </div>
+    </div>
+
+    <!-- 値上がり・値下がりランキング -->
+    <div id="page-movers" class="page">
+      <div class="card">
+        <h2>📈 日本株 値上がり・値下がり率ランキング</h2>
+        <p class="muted">日本株の値上がり・値下がり率ランキングを表示します。銘柄名を押すと会社四季報オンラインの銘柄ページが開きます。株価は配信元の更新時刻時点の値で、リアルタイム配信ではない場合があります。</p>
+        <button class="btn btn-primary" onclick="loadMovers(true)">🔄 ランキングを更新</button>
+        <p id="moversStatus" class="muted"></p>
+        <div id="moversTables" class="form-row" style="align-items:flex-start"></div>
+      </div>
+    </div>
+
+    
+    <!-- 株主優待 -->
+    <div id="page-benefits" class="page">
+      <div class="card">
+        <h2>🎁 株主優待リスト</h2>
+        <p class="muted">確認したい権利確定月を選び、「リスト表示」を押してください。</p>
+        <div class="form-row">
+          <label for="benefitMonth"><b>権利確定月</b></label>
+          <select id="benefitMonth" style="min-width:120px">
+            <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
+            <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
+            <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
+            <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+          </select>
+          <button class="btn btn-primary" onclick="loadBenefitList()">リスト表示</button>
+        </div>
+        <p id="benefitDataDate" class="muted"><b>情報取得日：</b>—</p><div class="notice" style="margin:8px 0 12px;"><b>株主優待情報について</b><br>
+各企業の公開情報・適時開示などをもとに独自整理した参考情報です。「要確認」「変更予定」「廃止予定」等を含みます。
+正確性・完全性・最新性を保証するものではありません。権利取得前に必ず各企業の公式IR情報をご確認ください。</div>
+        <p id="benefitStatus" class="muted"></p>
+        <div id="benefitTable"></div>
+        <p class="muted" style="margin-top:12px;">
+          ※表示される株主優待情報は、最新の内容に更新されていない場合があります。
+          優待制度の新設・変更・廃止、権利確定日、必要株数、継続保有条件などの最新情報は、
+          実際に優待の権利を取得する前に、必ず各会社の公式IR情報などでご確認ください。
+        </p>
+      </div>
+    </div>
+
+<!-- 株価の評価方法 -->
+    <div id="page-evaluation" class="page">
+      <div class="card">
+        <h2>📊 株価の評価方法</h2>
+        <p>株価を評価するときは、1つの指標だけで「買い・売り」を判断するのではなく、<b>割安性・収益性・成長性・財務健全性・株価の勢い・リスク</b>を組み合わせて見ることが重要です。</p>
+        <p class="muted">以下の数値は一般的な参考目安です。業種・企業規模・景気・金利などによって適正水準は異なります。</p>
+
+        <div style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr><th>評価項目</th><th>見るポイント</th><th>参考となる考え方・目安</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>PER</b></td><td>株価の割安性</td><td>利益に対して株価が何倍まで買われているかを確認します。単純に低いほど良いとは限らず、同業他社やその企業の過去のPERと比較するのが基本です。</td></tr>
+              <tr><td><b>ROE</b></td><td>収益性</td><td>株主資本を使ってどれだけ利益を生み出しているかを見る指標です。10%以上を一つの参考目安とし、15%以上なら比較的高い収益性と考えられます。ただし業種差があります。</td></tr>
+              <tr><td><b>成長率</b></td><td>企業の成長性</td><td>利益成長率を優先し、取得できない場合は売上成長率を参考にします。プラスであることに加え、数年間継続して成長できているかを見ることが重要です。</td></tr>
+              <tr><td><b>自己資本比率</b></td><td>財務健全性</td><td>総資産のうち返済不要の自己資本が占める割合です。一般に高いほど財務の安定性が高いと考えられますが、銀行など業種によって適正水準が大きく異なります。</td></tr>
+              <tr><td><b>目標株価</b></td><td>現在値との比較</td><td>現在株価より目標株価が高い場合は上昇余地の参考になります。本アプリでは目標株価が現在値より10%以上高ければ「割安」、10%以上低ければ「割高」、その間を「妥当」と表示します。</td></tr>
+              <tr><td><b>短期上昇力</b></td><td>株価の勢い</td><td>直近5営業日と約20営業日の値動きを利用した参考スコアです。高いほど最近の上昇モメンタムが強いことを示します。</td></tr>
+              <tr><td><b>安定性</b></td><td>値動きの安定度</td><td>直近約1か月の日々の値動きから算出した参考スコアです。高いほど日々の変動が比較的小さいことを示します。</td></tr>
+              <tr><td><b>暴落リスク</b></td><td>下落への注意</td><td>直近約3か月の高値からの最大下落幅を参考にします。過去に大きく下落している銘柄ほど、値動きの大きさに注意します。</td></tr>
+              <tr><td><b>陽線・陰線</b></td><td>直近の売買の勢い</td><td>終値が始値より高ければ陽線、低ければ陰線です。1日だけで判断せず、株価トレンドと合わせて確認します。</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top:22px">評価するときの6つの視点</h3>
+        <ol>
+          <li><b>割安性：</b>PERや目標株価を見て、現在の株価が企業価値に対して高すぎないか確認します。</li>
+          <li><b>収益性：</b>ROEなどから、企業が効率よく利益を生み出しているか確認します。</li>
+          <li><b>成長性：</b>利益・売上の成長が続いているか確認します。</li>
+          <li><b>財務健全性：</b>自己資本比率などから、財務面に無理がないか確認します。</li>
+          <li><b>株価モメンタム：</b>短期上昇力や陽線・陰線から、最近の株価の方向を確認します。</li>
+          <li><b>リスク：</b>安定性や暴落リスクから、どの程度の値動きを許容する必要があるか確認します。</li>
+        </ol>
+
+        <h3>総合的な見方</h3>
+        <p>例えば、<b>PERが比較的割安、ROEが高い、成長率がプラス、財務が安定し、株価にも上昇傾向がある</b>銘柄は、複数の面から評価しやすい候補になります。一方で、PERだけが低い銘柄には業績悪化などの理由がある場合があり、ROEや成長率だけが高い銘柄も株価がすでに割高になっている場合があります。</p>
+        <p>そのため、本アプリの「AIおすすめ銘柄」やスコアも最終的な売買判断ではなく、<b>詳しく調べる銘柄を絞り込むための参考情報</b>として利用することをおすすめします。</p>
+
+        <div class="msg-info" style="padding:12px 14px;border-radius:8px;margin-top:16px">
+          <b>重要：</b>ここに記載した基準は一般的な参考情報であり、将来の株価上昇や利益を保証するものではありません。企業の決算、業績予想、ニュース、市場環境、金利、為替なども確認し、最終的な投資判断はご自身で行ってください。
+        </div>
+      </div>
+    </div>
+
+    <!-- ヘルプ -->
+    <div id="page-help" class="page">
+      <div class="card">
+        <h2>❓ 使い方</h2>
+        <h3>1. お気に入り</h3>
+        <ul>
+          <li>銘柄コードを入力して「コードで追加」を押すと、日本語の会社名を補って登録します。</li>
+          <li>会社名を入力して「コードで追加」を押すと東証銘柄を検索します。表示された候補の「選択して追加」を押してください。</li>
+          <li>会社名をクリックすると会社四季報オンライン、コードをクリックすると株価情報ページが開きます。</li>
+          <li>お気に入りは同じブラウザーに保存されます。15件を超える場合はリスト内をスクロールできます。</li>
+          <li>お気に入りを追加・変更すると、最新の一覧をブラウザー内の既定バックアップへ自動保存します。「お気に入り復元」を押すとファイル選択をせず、この既定バックアップを自動で読み込んで復元します。</li>
+          <li>追加時には機種変更・端末初期化に備えて「日本株チェッカー_お気に入り_YYYYMMDD_HHMMSS.json」も端末へ自動保存します。</li>
+          <li><b>機種変更時：</b>ブラウザー内の既定バックアップは新しい端末へ自動では移りません。旧端末で保存された最新のJSONファイルをiCloud Drive、Google Drive、AirDrop、USBなどで新端末へ移して保管してください。現在の「お気に入り復元」ボタンは同じ端末・同じブラウザー内の既定バックアップを復元する機能です。</li>
+          <li><b>注意：</b>ブラウザーのサイトデータを完全に削除すると、通常のお気に入りとブラウザー内の既定バックアップの両方が消えます。端末外のJSONバックアップは機種変更・初期化に備えて残してください。</li>
+        </ul>
+        <h3>2. 株銘柄詳細評価</h3>
+        <ul>
+          <li>「株銘柄詳細評価」では、銘柄コード・日本語名称・英語名称を入力して「検索」を押すと、東証銘柄の候補を検索できます。</li>
+          <li>検索結果の「詳細評価」を押すと、銘柄コード・日本語名称・業種、現在株価、目標株価、目標株価との差、短期視点・長期視点の参考評価を表示します。</li>
+          <li>評価カード上部の銘柄コードをクリックすると株価チャート、日本語名称をクリックすると会社四季報オンラインの銘柄個別ページが開きます。</li>
+          <li>短期視点は直近の値動き、前日比、ローソク足などをもとに「強気・中立・弱気」で表示します。短期の予想レンジは直近約20営業日の値動きから計算した、約5営業日の統計的な参考範囲です。</li>
+          <li>長期視点は目標株価との乖離、成長率、ROE、自己資本比率、PERなど、取得できた指標をもとに「強気・中立・弱気」で表示します。</li>
+          <li>強気は赤系、中立は黄系、弱気は青系で色分けします。目標株価など取得できない項目は「—」になります。</li>
+          <li>カード下部の「お気に入り追加」から通常のお気に入りへ登録できます。すでに登録済みの場合は「お気に入り登録済み」と表示します。</li>
+          <li>短期予想レンジ・長期見通し・目標株価は将来の株価や投資成果を保証するものではなく、銘柄比較のための参考情報です。</li>
+        </ul>
+        <h3>3. 一括チェック</h3>
+        <ul>
+          <li>「最新データを取得して一括チェック」を押すと、お気に入りの現在値、PTS株価、目標株価、株価水準（割安/妥当/割高）、前日比、陽線/陰線、スコアを取得します。</li>
+          <li>結果はスコア順です。PTS株価は現在値より高いと緑、低いと赤で表示し、隣にPTS差額（PTS株価−現在値）を表示します。</li>
+          <li>スマートフォンでは横長の表を1銘柄1カード形式に切り替えて表示します。PCでは従来どおり表形式で表示します。</li>
+          <li>現在値をクリックすると株価チャートが新しいタブで開きます。</li>
+          <li>一括チェックでは成長率（利益成長率を優先し、未取得時は売上成長率）を表示します。</li>
+          <li>短期上昇力・安定性は直近の日足変動からの参考スコア、暴落リスクは直近約3か月の最大下落幅です。PER・ROE・自己資本比率・成長率は取得できた財務データを表示します。未取得時は「—」になります。</li>
+        </ul>
+        <h3>4. 為替情報</h3>
+        <ul>
+          <li>「為替情報」タブで米ドル/円の現在レート、直近約5営業日の動きをもとにした今後の円高・円安方向の参考コメント、為替チャート、関連ニュースを確認できます。</li>
+          <li>チャートは分足・時間足・日足・週足・月足に切り替えられます。各欄の見出しを押すと折りたためます。</li>
+          <li>見通しコメントは短期推移に基づく参考情報であり、将来の為替レートを予測・保証するものではありません。</li>
+        </ul>
+        <h3>5. AIおすすめ銘柄</h3>
+        <ul>
+          <li>タブを開くと、現在値・目標株価・株価水準（割安/妥当/割高）・陽線/陰線・スコア・おすすめ判定を自動取得します。</li>
+          <li>一覧に短期上昇力・安定性・暴落リスク・PER・ROE・成長率・自己資本比率を表示します。数値は取得できた最新データに基づく参考情報です。</li>
+          <li>スマートフォンでは銘柄ごとのカード形式、PCでは表形式で表示します。</li>
+          <li>現在値をクリックすると株価チャートが新しいタブで開きます。</li>
+          <li>一覧の行にマウスを重ねると、その銘柄の業種を表示します。</li>
+          <li>おすすめはスコア55以上、強くおすすめは75以上です。</li>
+        </ul>
+        <h3>6. 値上がり・値下がりランキング</h3>
+        <ul>
+          <li>スマートフォンではランキングも1銘柄1カード形式、PCでは表形式で表示します。</li>
+          <li>「値上がり・値下がり」タブを開くと、値上がり率・値下がり率それぞれ上位20社を表示し、お気に入り一括チェックと同じ詳細項目（現在値・PTS株価・PTS差額・目標株価・株価水準・短期上昇力・安定性・暴落リスク・PER・ROE・成長率・自己資本比率・前日比・陽線/陰線・スコア・おすすめ判定）を取得します。</li>
+          <li>銘柄名をクリックすると会社四季報オンラインの該当銘柄ページが開きます。</li>
+          <li>現在値をクリックすると株価チャートが新しいタブで開きます。</li>
+          <li>ランキングには取得した市場データの更新時刻が表示されます。リアルタイム配信ではなく、遅延する場合があります。</li>
+        </ul>
+        <h3>株主優待データの年度更新（管理者向け）</h3>
+        <p>株主優待データは、年1回または必要な時にPC上の「EDINET 株主優待JSON生成ツール」で作成し、GitHubのstock_appリポジトリにある <code>shareholder_benefits.json</code> を手動で置き換えて更新します。公開アプリからEDINET APIを直接呼び出す方式ではありません。</p>
+        <ol>
+          <li><code>benefits_generator_app.py</code> と <code>start_benefits_generator.bat</code> を同じフォルダーに置きます。</li>
+          <li>Windowsで <code>start_benefits_generator.bat</code> をダブルクリックします。ブラウザーでローカル生成画面が開きます。</li>
+          <li>対象年度とEDINET APIキーを入力して「生成開始」を押します。APIキーは生成ツールのファイルには保存されません。</li>
+          <li>処理完了後、<code>generated_benefits</code> フォルダーに年度別JSON、最新版用 <code>shareholder_benefits.json</code>、要レビューJSON、処理レポートJSONが作成されます。</li>
+          <li>要レビューJSONと処理レポートを確認し、公開候補について企業公式IRで制度継続・権利確定日・必要株数・優待内容を確認します。</li>
+          <li>確認後の <code>shareholder_benefits.json</code> をGitHubの <code>stock_app/shareholder_benefits.json</code> と手動で置き換えてコミットします。GitHub Pages反映後、株主優待検索で内容を確認します。</li>
+        </ol>
+        <p class="muted">注意：EDINETの有価証券報告書には株主優待専用の統一項目がないため、生成ツールは本文から候補を抽出します。「記載が見つからない＝優待なし」とは判定しません。公開前の公式IR確認を必須としてください。また、処理中はPCをスリープさせず、生成画面を閉じないでください。</p>
+        <h3>7. 各表の列とリンクについて</h3>
+        <p class="muted">一括チェック、AIおすすめ銘柄、値上がり・値下がりなどの表に表示される主な列の意味です。取得できない項目は「—」で表示されます。</p>
+        <div style="overflow-x:auto;">
+          <table>
+            <tr><th>列</th><th>内容</th><th>リンク・補足</th></tr>
+            <tr><td>コード</td><td>東証の銘柄コードです。</td><td>クリックすると株価情報ページを開きます。</td></tr>
+            <tr><td>会社名／銘柄名</td><td>会社・銘柄の名称です。</td><td>クリックすると会社四季報オンラインの銘柄ページを開きます。</td></tr>
+            <tr><td>業種</td><td>銘柄が属する主な業種・事業分野です。</td><td>取得元の分類などにより表記が異なる場合があります。</td></tr>
+            <tr><td>現在値</td><td>取得時点の株価です。</td><td>クリックすると株価チャートを開きます。</td></tr>
+            <tr><td>前日比(%)</td><td>前営業日の終値に対する現在値の騰落率です。</td><td>プラスは上昇、マイナスは下落を表します。</td></tr>
+            <tr><td>PTS株価</td><td>取得できた場合のPTS（私設取引システム）の株価です。</td><td>取得できない場合は「—」になります。</td></tr>
+            <tr><td>PTS差額</td><td>PTS株価と通常市場の現在値との差額です。</td><td>プラスはPTSの方が高く、マイナスは低いことを示します。</td></tr>
+            <tr><td>目標株価</td><td>取得できた平均目標株価です。</td><td>将来の株価を保証するものではありません。</td></tr>
+            <tr><td>株価水準</td><td>現在値と目標株価を比較した参考評価です。</td><td>目標株価が10%以上高ければ「割安」、10%以上低ければ「割高」、その間は「妥当」と表示します。</td></tr>
+            <tr><td>短期上昇力</td><td>直近5営業日と約20営業日の値動きから算出した参考スコアです。</td><td>短期的な値動きの強さを見るための指標です。</td></tr>
+            <tr><td>安定性</td><td>直近約1か月の日次変動率から算出した参考スコアです。</td><td>値動きの安定度を見るための指標です。</td></tr>
+            <tr><td>暴落リスク</td><td>直近約3か月の最大下落幅をもとにした参考指標です。</td><td>過去の値動きによる参考値で、将来の下落を予測するものではありません。</td></tr>
+            <tr><td>PER</td><td>株価収益率。株価が1株当たり利益の何倍かを見る指標です。</td><td>業種や成長性によって適正水準が異なります。</td></tr>
+            <tr><td>ROE</td><td>自己資本利益率。株主資本を使ってどの程度利益を上げているかを見る指標です。</td><td>企業の資本効率を見る代表的な指標です。</td></tr>
+            <tr><td>成長率</td><td>取得できた利益成長率を優先し、代替取得時には売上成長率などを表示します。</td><td>取得できた財務データによって内容が異なります。</td></tr>
+            <tr><td>自己資本比率</td><td>総資産に占める自己資本の割合です。</td><td>財務健全性を見る代表的な指標の一つです。</td></tr>
+            <tr><td>陽線／陰線</td><td>始値と終値（または取得時点の値）の関係を表します。</td><td>陽線は上昇、陰線は下落、同値は同時線です。</td></tr>
+            <tr><td>スコア</td><td>本アプリ独自の条件を組み合わせた参考スコアです。</td><td>将来の値上がりや投資成果を保証するものではありません。</td></tr>
+            <tr><td>おすすめ判定</td><td>スコア等をもとに「強くおすすめ」「おすすめ」「様子見」「慎重」などを表示します。</td><td>売買を推奨するものではなく、銘柄比較のための参考表示です。</td></tr>
+          </table>
+        </div>
+        <p class="muted">※ 外部サイトへのリンクは新しいタブで開きます。外部サイトの表示内容・提供条件は各サービスに準じます。</p>
+
+        <h3>8. 株主優待検索</h3>
+        <ul>
+          <li>「株主優待検索」で1月から12月の権利確定月を選び「リスト表示」を押すと、対象銘柄を優待権利確定日順に表示します。</li>
+          <li>PCでは表形式、スマートフォンでは読みやすい1社1カード形式で表示します。</li>
+          <li>会社名は会社四季報オンライン、現在株価は株価チャートへリンクします。</li>
+          <li>右端の「お気に入り追加」から銘柄をお気に入りへ登録できます。</li>
+          <li>優待制度は変更・廃止される場合があります。権利取得前に企業公式IRで最新条件を確認してください。</li>
+        </ul>
+        <h3>9. 起動とデータ取得</h3>
+        <ul>
+          <li>GitHub Pages版では株価・PTS・全銘柄検索の取得にオンラインAPIを使います。初回やしばらく利用がなかった後は、データ表示まで1分ほどかかることがあります。</li>
+          <li>ローカル版を使う場合は、同じフォルダーにある「stock_checker_start.bat」を起動し、表示されたアドレスをブラウザーで開いてください。終了するときはコンソールで Ctrl+C を押します。</li>
+          <li>株価データは取得時点の市場データを使用します。PTS価格は夜間PTS情報がある場合に表示され、データがない場合は「—」になります。</li>
+          <li>株価水準は現在値と目標株価を比較し、目標株価が10%以上高ければ「割安」、10%以上低ければ「割高」、その間は「妥当」と表示します。目標株価がない場合は判定できません。</li>
+        </ul>
+        <h3>注意事項</h3>
+        <ul>
+          <li>データは遅延したり、銘柄や時間帯によって取得できなかったりする場合があります。</li>
+          <li>本ツールは情報提供・学習用であり、投資助言ではありません。投資判断はご自身の責任で行ってください。</li>
+          <li>お気に入りはブラウザーのローカルストレージに保存されます。</li>
+        </ul>
+        <h3>寄付・改善要望</h3>
+        <ul>
+          <li>ホームの「アプリを応援する」から金額（100円から1000000円）を入力すると、決済ページで寄付金を送れますので気に入っていただけましたらご寄付お願いします。</li>
+          <li>「改善要望を送る」は入力内容を直接送信します。</li>
+        </ul>
+      
+        <hr>
+        <p class="muted">バージョン: V1.0.1<br>作成者: Yoshiro Miwa</p>
+        <h3>免責事項</h3>
+        <p class="muted">本プログラムの利用および利用結果は、利用者個人の責任とします。本プログラムの利用に起因して利用者または第三者に損害が生じた場合、プログラム提供側は責任を負わないものとします。</p>
+      </div>
+    </div>
+  </div>
+
+<script>
+// GitHub Pages is static, so public users use the Render API. Local server mode stays same-origin.
+const API_BASE = ["localhost", "127.0.0.1"].includes(location.hostname)
+  ? ""
+  : "https://stock-app-api-ducat595.onrender.com";
+
+// Google Analytics 4 custom events. Never send free-text feedback or other personal data.
+function trackEvent(name, params = {}) {
+  if (typeof window.gtag === "function") {
+    window.gtag("event", name, params);
+  }
+}
+async function submitTip(event) {
+  event.preventDefault();
+  const amount = Number(document.getElementById("tipAmount").value);
+  const status = document.getElementById("tipStatus");
+  const button = document.getElementById("tipSubmit");
+  if (!Number.isInteger(amount) || amount < 100 || amount > 1000000) {
+    status.textContent = "金額は100円から1,000,000円までの整数で入力してください。";
+    return;
+  }
+  trackEvent("tip_click", { amount_yen: amount });
+  button.disabled = true;
+  status.textContent = "Stripe決済ページを準備しています…";
+  try {
+    const response = await fetch(`${API_BASE}/api/tip/checkout`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({amount})
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "決済ページを作成できませんでした");
+    const checkout = new URL(result.url);
+    if (checkout.protocol !== "https:" || checkout.hostname !== "checkout.stripe.com") throw new Error("Stripeの決済URLが不正です");
+    window.location.assign(checkout.href);
+  } catch (error) {
+    status.textContent = error.message;
+    button.disabled = false;
+  }
+}
+
+async function submitFeedback(event) {
+  event.preventDefault();
+  const status = document.getElementById("feedbackStatus");
+  const field = document.getElementById("feedbackMessage");
+  const button = document.getElementById("feedbackSubmit");
+  const categoryField = document.querySelector('input[name="feedbackCategory"]:checked');
+  const category = categoryField ? categoryField.value : "";
+  const message = field.value.trim();
+  if (!category) {
+    status.textContent = "お問い合わせの種類を選択してください。";
+    return;
+  }
+  if (!message) {
+    status.textContent = "内容を入力してください。";
+    return;
+  }
+  button.disabled = true;
+  status.textContent = "改善要望を送信しています…";
+  try {
+    const response = await fetch(`${API_BASE}/api/feedback`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({category, message})
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "改善要望を送信できませんでした");
+    field.value = "";
+    document.querySelectorAll('input[name="feedbackCategory"]').forEach(el => { el.checked = false; });
+    status.textContent = "送信を受け付けました。ありがとうございます。";
+    trackEvent("feedback_submit", { feedback_category: category });
+  } catch (error) {
+    status.textContent = error.message || "改善要望を送信できませんでした。";
+  } finally {
+    button.disabled = false;
+  }
+}
+
+const tipResult = new URLSearchParams(location.search).get("tip");
+if (tipResult === "success") history.replaceState(null, "", location.pathname + location.hash);
+window.addEventListener("DOMContentLoaded", () => {
+  if (tipResult === "success") {
+    document.getElementById("tipStatus").textContent = "チップをお送りいただきありがとうございます。";
+    trackEvent("tip_success");
+  }
+  else if (tipResult === "cancelled") document.getElementById("tipStatus").textContent = "チップ決済はキャンセルされました。";
+});
+// ========== データ ==========
+const JP_NAMES = {
+  "7203":"トヨタ自動車","6857":"アドバンテスト","6758":"ソニーグループ","9984":"ソフトバンクグループ",
+  "8306":"三菱UFJフィナンシャル・グループ","8316":"三井住友フィナンシャルグループ","8766":"東京海上ホールディングス",
+  "8035":"東京エレクトロン","285A":"キオクシアホールディングス","6920":"レーザーテック","6981":"村田製作所",
+  "4062":"イビデン","6723":"ルネサスエレクトロニクス","7741":"HOYA","6367":"ダイキン工業","6501":"日立製作所",
+  "9983":"ファーストリテイリング","5801":"古河電気工業","1605":"INPEX","6098":"リクルートホールディングス",
+  "9432":"日本電信電話","9434":"ソフトバンク","6861":"キーエンス","7974":"任天堂","6146":"ディスコ",
+  "6976":"太陽誘電","6762":"TDK","7267":"ホンダ","6902":"デンソー","6594":"ニデック",
+  "8411":"みずほフィナンシャルグループ","8001":"伊藤忠商事","8058":"三菱商事","5401":"日本製鉄","4661":"オリエンタルランド",
+  "7201":"日産自動車","7269":"スズキ","7270":"SUBARU","7011":"三菱重工業","6301":"小松製作所",
+  "7751":"キヤノン","4901":"富士フイルムホールディングス","4502":"武田薬品工業","4568":"第一三共",
+  "4503":"アステラス製薬","3382":"セブン＆アイ・ホールディングス","8267":"イオン","9020":"東日本旅客鉄道",
+  "9022":"東海旅客鉄道","2914":"日本たばこ産業","8002":"丸紅","8031":"三井物産","8591":"オリックス",
+  "7735":"SCREENホールディングス","6971":"京セラ","4543":"テルモ","3407":"旭化成","4188":"三菱ケミカルグループ",
+  "5108":"ブリヂストン","6273":"SMC","7832":"バンダイナムコホールディングス","9684":"スクウェア・エニックス・ホールディングス",
+  "3659":"ネクソン","4755":"楽天グループ","4689":"LINEヤフー","4307":"野村総合研究所","9735":"セコム",
+  "4063":"信越化学工業","6988":"日東電工","5411":"JFEホールディングス","2802":"味の素","2502":"アサヒグループホールディングス",
+  "2503":"キリンホールディングス","2269":"明治ホールディングス","4452":"花王","4911":"資生堂","9202":"ANAホールディングス",
+  "9201":"日本航空","9101":"日本郵船","9104":"商船三井","9107":"川崎汽船","8801":"三井不動産","8802":"三菱地所",
+  "1925":"大和ハウス工業","1801":"大成建設","1802":"大林組","1812":"鹿島建設","9501":"東京電力ホールディングス",
+  "9502":"中部電力","9503":"関西電力","9531":"東京ガス","9532":"大阪ガス","2432":"ディー・エヌ・エー",
+  "4385":"メルカリ","3697":"SHIFT","3994":"マネーフォワード","4478":"フリー","2158":"フロンティア・マネジメント"
+};
+
+// 検索用の別名（部分一致しやすくする）
+const NAME_ALIASES = {
+  "トヨタ":"7203", "toyota":"7203",
+  "ソニー":"6758", "sony":"6758",
+  "ソフトバンクグループ":"9984", "ソフトバンクg":"9984",
+  "ソフトバンク":"9434",
+  "アドバン":"6857", "advantest":"6857",
+  "東エレ":"8035", "東京エレクトロン":"8035",
+  "キオクシア":"285A", "kioxia":"285A",
+  "レーザーテック":"6920",
+  "村田":"6981",
+  "イビデン":"4062",
+  "ルネサス":"6723",
+  "ダイキン":"6367",
+  "日立":"6501",
+  "ユニクロ":"9983", "ファストリ":"9983",
+  "古河電工":"5801", "古河電気":"5801",
+  "インペックス":"1605", "inpex":"1605",
+  "リクルート":"6098",
+  "三菱ufj":"8306", "三菱ＵＦＪ":"8306", "むふじ":"8306",
+  "三井住友":"8316", "smbc":"8316",
+  "東京海上":"8766",
+  "みずほ":"8411",
+  "任天堂":"7974", "nintendo":"7974",
+  "キーエンス":"6861",
+  "ホンダ":"7267", "honda":"7267",
+  "日産":"7201",
+  "スバル":"7270",
+  "キヤノン":"7751", "canon":"7751",
+  "武田":"4502",
+  "セブン":"3382", "セブンイレブン":"3382",
+  "イオン":"8267",
+  "jr東":"9020", "jr東海":"9022",
+  "jt":"2914",
+  "楽天":"4755",
+  "メルカリ":"4385",
+  "ディズニー":"4661", "オリエンタルランド":"4661",
+  "バンダイ":"7832", "ナムコ":"7832",
+  "スクエニ":"9684",
+  "ネクソン":"3659",
+  "yahoo":"4689", "ヤフー":"4689", "line":"4689",
+  "ntt":"9432",
+  "デンソー":"6902",
+  "ニデック":"6594", "日本電産":"6594",
+  "小松":"6301", "コマツ":"6301",
+  "三菱重工":"7011",
+  "花王":"4452",
+  "資生堂":"4911",
+  "ana":"9202", "jal":"9201",
+  "三井不動産":"8801", "三菱地所":"8802",
+  "大和ハウス":"1925"
+};
+
+const RECOMMENDED = [
+  {code:"6857", name:"アドバンテスト", reason:"AI半導体テスター世界首位"},
+  {code:"8035", name:"東京エレクトロン", reason:"半導体製造装置の世界トップクラス"},
+  {code:"285A", name:"キオクシアホールディングス", reason:"NANDメモリ大手・AI需要"},
+  {code:"6920", name:"レーザーテック", reason:"EUVマスク検査で独占的地位"},
+  {code:"6981", name:"村田製作所", reason:"電子部品・AIサーバー関連"},
+  {code:"4062", name:"イビデン", reason:"先端パッケージ基板・AI向け"},
+  {code:"6723", name:"ルネサスエレクトロニクス", reason:"車載・産業用半導体"},
+  {code:"7741", name:"HOYA", reason:"半導体マスクブランクス・ヘルスケア"},
+  {code:"6367", name:"ダイキン工業", reason:"空調世界首位・省エネ需要"},
+  {code:"6501", name:"日立製作所", reason:"社会インフラ・DX関連"},
+  {code:"7203", name:"トヨタ自動車", reason:"安定成長・グローバル展開"},
+  {code:"6758", name:"ソニーグループ", reason:"エンタメ・半導体センサー"},
+  {code:"9984", name:"ソフトバンクグループ", reason:"通信＋投資・AI関連"},
+  {code:"9983", name:"ファーストリテイリング", reason:"ユニクロ世界展開・高成長"},
+  {code:"8306", name:"三菱UFJフィナンシャル・グループ", reason:"金利上昇メリット・高配当"},
+  {code:"8316", name:"三井住友フィナンシャルグループ", reason:"メガバンク・株主還元"},
+  {code:"8766", name:"東京海上ホールディングス", reason:"保険大手・株主還元積極"},
+  {code:"5801", name:"古河電気工業", reason:"AIデータセンター向け光ファイバ"},
+  {code:"1605", name:"INPEX", reason:"原油・LNG・資源価格恩恵"},
+  {code:"6098", name:"リクルートホールディングス", reason:"人材・マッチングプラットフォーム"},
+];
+
+const RECOMMENDED_INDUSTRIES = {
+  "6857":"半導体製造装置", "8035":"半導体製造装置", "285A":"半導体・メモリー",
+  "6920":"精密機器・半導体検査装置", "6981":"電子部品", "4062":"電子部品・半導体パッケージ基板",
+  "6723":"半導体", "7741":"精密機器・医療機器", "6367":"機械・空調機器",
+  "6501":"電気機器・IT／社会インフラ", "7203":"輸送用機器・自動車", "6758":"電気機器・エンターテインメント",
+  "9984":"情報・通信・投資持株会社", "9983":"小売業・衣料品", "8306":"銀行業",
+  "8316":"銀行業", "8766":"保険業", "5801":"非鉄金属・電線",
+  "1605":"鉱業・石油／天然ガス", "6098":"サービス業・人材／求人広告"
+};
+const DEFAULT_FAVS = [
+  {code:"7203", name:"トヨタ自動車"},
+  {code:"6857", name:"アドバンテスト"},
+  {code:"6758", name:"ソニーグループ"},
+  {code:"9984", name:"ソフトバンクグループ"},
+  {code:"8306", name:"三菱UFJフィナンシャル・グループ"},
+];
+
+// ========== お気に入り（localStorage） ==========
+const FAV_STORAGE_KEY = "jp_stock_favorites_v1";
+const FAV_BACKUP_KEY = "jp_stock_favorites_backup_v1";
+
+function loadFavs() {
+  try {
+    // 新キー
+    let s = localStorage.getItem(FAV_STORAGE_KEY);
+    // 旧キーからの移行
+    if (!s) {
+      const old = localStorage.getItem("stock_favorites");
+      if (old) {
+        s = old;
+        localStorage.setItem(FAV_STORAGE_KEY, old);
+      }
+    }
+    if (s) {
+      const data = JSON.parse(s);
+      if (Array.isArray(data) && data.length) return data;
+    }
+  } catch(e) {
+    console.warn("お気に入り読み込みエラー", e);
+  }
+  return JSON.parse(JSON.stringify(DEFAULT_FAVS));
+}
+function saveFavs(list) {
+  try {
+    const json = JSON.stringify(list);
+    localStorage.setItem(FAV_STORAGE_KEY, json);
+    // 最新のお気に入りを既定バックアップとして自動保存
+    localStorage.setItem(FAV_BACKUP_KEY, json);
+  } catch(e) {
+    showMsg("お気に入りの保存に失敗しました（ブラウザの制限の可能性）", "err");
+    console.warn(e);
+  }
+}
+
+function downloadFavoritesBackup(list) {
+  try {
+    const payload = {
+      app: "日本株チェッカー",
+      type: "favorites-backup",
+      version: 1,
+      savedAt: new Date().toISOString(),
+      favorites: Array.isArray(list) ? list : []
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const d = new Date();
+    const pad = n => String(n).padStart(2, "0");
+    a.href = url;
+    a.download = `日本株チェッカー_お気に入り_${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch(e) {
+    console.warn("お気に入りバックアップ作成エラー", e);
+    showMsg("お気に入りは追加しましたが、バックアップファイルを保存できませんでした", "err");
+  }
+}
+
+function restoreFavorites() {
+  try {
+    const raw = localStorage.getItem(FAV_BACKUP_KEY);
+    if (!raw) {
+      showMsg("復元できるお気に入りバックアップがありません", "err");
+      return;
+    }
+    const data = JSON.parse(raw);
+    if (!Array.isArray(data) || !data.length) {
+      showMsg("復元できるお気に入りバックアップがありません", "err");
+      return;
+    }
+
+    const restored = [];
+    const seen = new Set();
+    for (const item of data) {
+      const code = String(item?.code ?? "").replace(/\.T$/i, "").trim().toUpperCase();
+      if (!/^\d{4}[A-Z]?$/.test(code) || seen.has(code)) continue;
+      seen.add(code);
+      restored.push({
+        code,
+        name: jpName(code) || String(item?.name ?? code),
+        ...(item?.source ? {source: String(item.source)} : {}),
+        ...(item?.sourceLabel ? {sourceLabel: String(item.sourceLabel)} : {})
+      });
+    }
+    if (!restored.length) {
+      showMsg("復元できるお気に入りバックアップがありません", "err");
+      return;
+    }
+
+    localStorage.setItem(FAV_STORAGE_KEY, JSON.stringify(restored));
+    renderFavList();
+    showMsg(`${restored.length}件のお気に入りを復元しました`, "ok");
+    trackEvent("favorites_restore", { favorite_count: restored.length });
+  } catch(e) {
+    console.warn("お気に入り復元エラー", e);
+    showMsg("お気に入りを復元できませんでした", "err");
+  }
+}
+
+function getName(code) {
+  code = String(code).replace(/\.T$/i, "").trim();
+  return JP_NAMES[code] || code;  // 日本語マップのみ。英語名は使わない
+}
+
+
+// ========== 株主優待 ==========
+const BENEFITS_DATA_URL = "shareholder_benefits.json";
+
+function benefitDateSortValue(value) {
+  const text = String(value || "");
+  const nums = text.match(/\d+/g) || [];
+  if (nums.length >= 2) return Number(nums[0]) * 100 + Number(nums[1]);
+  if (/月末/.test(text) && nums.length) return Number(nums[0]) * 100 + 31;
+  return 9999;
+}
+function benefitShikihoUrl(code) {
+  // 会社四季報オンラインの「銘柄個別ページ」を直接開く
+  // 例: 7201 → https://shikiho.toyokeizai.net/stocks/7201/info
+  const stockCode = String(code || "").trim().toUpperCase();
+  return `https://shikiho.toyokeizai.net/stocks/${encodeURIComponent(stockCode)}/info`;
+}
+function benefitChartUrl(code) {
+  return `https://finance.yahoo.co.jp/quote/${encodeURIComponent(code)}.T/chart`;
+}
+function addBenefitFavorite(code, name) {
+  const list = loadFavs();
+  code = String(code).replace(/\.T$/i, "").trim().toUpperCase();
+  if (list.some(x => String(x.code).replace(/\.T$/i, "").toUpperCase() === code)) {
+    showMsg("既にお気に入りに登録されています", "err"); return;
+  }
+  const display = jpName(code) || name || code;
+  list.push({
+    code,
+    name: display,
+    source: "shareholder_benefit",
+    sourceLabel: "株主優待から追加"
+  });
+  // 株主優待からの追加は端末内のお気に入りへ直接保存し、
+  // JSONバックアップの自動ダウンロードは行わない。
+  saveFavs(list);
+  showMsg(`${code} ${display} をお気に入りに追加しました（株主優待から追加）`, "ok");
+  trackEvent("stock_add_favorite", {stock_code:String(code), source:"benefits"});
+  renderFavList();
+
+  // 優待検索結果は再読み込みしない。現在表示中の検索結果をそのまま残し、
+  // 追加した銘柄のボタンだけ「登録済み」に切り替える。
+  document.querySelectorAll('#benefitTable [data-benefit-fav-code]').forEach(btn => {
+    const buttonCode = String(btn.dataset.benefitFavCode || "").replace(/\.T$/i, "").toUpperCase();
+    if (buttonCode === code) {
+      btn.disabled = true;
+      btn.textContent = "登録済み";
+    }
+  });
+}
+async function loadBenefitList() {
+  const month = Number(document.getElementById("benefitMonth").value);
+  const status = document.getElementById("benefitStatus");
+  const box = document.getElementById("benefitTable");
+  status.textContent = `${month}月の株主優待データを読み込んでいます…`;
+  box.innerHTML = "";
+  try {
+    const response = await fetch(`${BENEFITS_DATA_URL}?v=${Date.now()}`, {cache:"no-store"});
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const raw = await response.json();
+    const dataDate = document.getElementById("benefitDataDate");
+    const updatedAt = Array.isArray(raw) ? null : raw.updatedAt;
+    if (dataDate) {
+      dataDate.innerHTML = `<b>情報取得日：</b>${updatedAt ? escapeHtml(String(updatedAt).replace(/-/g, "/")) : "—"}`;
+    }
+    const all = Array.isArray(raw) ? raw : (raw.items || raw.benefits || []);
+    const rows = all.filter(x => Number(x.month ?? x.recordMonth) === month)
+      .sort((a,b) => benefitDateSortValue(a.recordDate) - benefitDateSortValue(b.recordDate));
+    if (!rows.length) { status.textContent=`${month}月の登録済み優待データはありません。`; return; }
+
+    status.textContent=`${month}月：${rows.length}件。現在株価を取得しています…`;
+    const enriched = await Promise.all(rows.map(async x => {
+      try { const q=await fetchQuote(String(x.code)); return {...x,currentPrice:q?.price ?? null}; }
+      catch(e) { return {...x,currentPrice:null}; }
+    }));
+    const favCodes=new Set(loadFavs().map(x=>String(x.code).replace(/\.T$/i,"").toUpperCase()));
+    box.innerHTML=`<div class="benefit-table-wrap"><table class="benefit-table"><thead><tr>
+      <th>優待権利確定日</th><th>会社コード</th><th>日本語会社名</th><th>現在株価</th>
+      <th>業種</th><th>優待権利条件</th><th>優待内容</th><th>優待状況</th><th>情報元</th><th>お気に入り</th>
+      </tr></thead><tbody>${enriched.map(x=>{
+        const code=String(x.code).replace(/\.T$/i,"");
+        const name=x.name || jpName(code) || code;
+        const price=x.currentPrice==null ? "—" : `${Number(x.currentPrice).toLocaleString("ja-JP")}円`;
+        const already=favCodes.has(code.toUpperCase());
+        return `<tr>
+          <td data-label="優待権利確定日">${escapeHtml(String(x.recordDate||"—"))}</td><td data-label="会社コード">${escapeHtml(code)}</td>
+          <td data-label="日本語会社名"><a href="${benefitShikihoUrl(code)}" target="_blank" rel="noopener">${escapeHtml(name)}</a></td>
+          <td data-label="現在株価">${x.currentPrice==null ? "—" : `<a href="${benefitChartUrl(code)}" target="_blank" rel="noopener">${price}</a>`}</td>
+          <td data-label="業種">${escapeHtml(String(x.industry||"—"))}</td>
+          <td data-label="優待権利条件">${escapeHtml(String(x.conditions||x.condition||"—"))}</td>
+          <td data-label="優待内容">${escapeHtml(String(x.benefit||x.benefitContent||"—"))}</td>
+          <td data-label="優待状況">${escapeHtml(String(x.status||"要確認"))}</td>
+          <td data-label="情報元">${x.officialSource ? `<a href="${escapeHtml(String(x.officialSource))}" target="_blank" rel="noopener">公式情報</a>` : escapeHtml(String(x.sourceType||"要確認"))}</td>
+          <td data-label="お気に入り"><button class="btn btn-secondary btn-sm" data-benefit-fav-code="${escapeHtml(code)}" ${already?"disabled":""} onclick='addBenefitFavorite(${JSON.stringify(code)},${JSON.stringify(name)})'>${already?"登録済み":"お気に入り追加"}</button></td>
+        </tr>`;
+      }).join("")}</tbody></table></div>`;
+    status.textContent=`${month}月：${enriched.length}件を権利確定日順に表示しています。`;
+  } catch(e) {
+    console.warn(e);
+    status.textContent="株主優待データを読み込めませんでした。shareholder_benefits.json をGitHubへ配置してください。";
+  }
+}
+
+// ========== メッセージ ==========
+function showMsg(text, type="info") {
+  const el = document.getElementById("msg");
+  el.className = "msg show msg-" + type;
+  el.textContent = text;
+  if (window._msgTimer) clearTimeout(window._msgTimer);
+  window._msgTimer = setTimeout(() => el.classList.remove("show"), 4000);
+}
+function hideMsg() {
+  const el = document.getElementById("msg");
+  if (el) el.classList.remove("show");
+  if (window._msgTimer) clearTimeout(window._msgTimer);
+}
+// 他の場所をクリックしたらメッセージを消す
+document.addEventListener("click", function(e) {
+  const el = document.getElementById("msg");
+  if (!el || !el.classList.contains("show")) return;
+  // メッセージ自体をクリックした場合は消さない（任意）
+  if (el.contains(e.target)) return;
+  hideMsg();
+}, true);
+
+// ========== ナビ ==========
+function openPage(page, navItem) {
+  document.querySelectorAll(".nav [data-page]").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+
+  const target = document.getElementById("page-" + page);
+  if (!target) return;
+
+  target.classList.add("active");
+  const item = navItem || document.querySelector(`.nav [data-page="${page}"]`);
+  if (item) item.classList.add("active");
+
+  if (typeof trackEvent === "function") trackEvent("app_tab_view", { tab_name: page });
+  if (page === "fav") renderFavList();
+  if (page === "rec") renderRecList();
+  if (page === "movers") loadMovers();
+  if (page === "fx") loadFxPage();
+}
+
+function pageFromHash() {
+  const m = location.hash.match(/^#page-(home|detail|fav|check|fx|rec|movers|benefits|evaluation|help)$/);
+  return m ? m[1] : "home";
+}
+
+document.querySelectorAll(".nav [data-page]").forEach(item => {
+  item.addEventListener("click", () => openPage(item.dataset.page, item));
+});
+window.addEventListener("hashchange", () => openPage(pageFromHash()));
+window.addEventListener("DOMContentLoaded", () => openPage(pageFromHash()));
+
+
+// ========== 株銘柄詳細評価 ==========
+function detailChartUrl(code) {
+  return `https://finance.yahoo.co.jp/quote/${encodeURIComponent(code)}.T/chart`;
+}
+function detailShikihoUrl(code) {
+  return `https://shikiho.toyokeizai.net/stocks/${encodeURIComponent(code)}/info`;
+}
+function detailTrendText(q, horizon) {
+  const pct = Number(q.changePct);
+  const strength = Number(q.shortTermStrength);
+  const target = Number(q.target);
+  const price = Number(q.price);
+  const growth = Number(q.growthRate);
+  const roe = Number(q.roe);
+  const equity = Number(q.equityRatio);
+  const per = Number(q.per);
+
+  if (horizon === "short") {
+    let points = 0, reasons = [];
+    if (Number.isFinite(strength)) {
+      if (strength >= 65) { points += 2; reasons.push("直近の値動きに上向きの勢いがあります"); }
+      else if (strength <= 35) { points -= 2; reasons.push("直近の値動きは弱めです"); }
+      else reasons.push("直近の値動きは中立圏です");
+    }
+    if (Number.isFinite(pct)) {
+      if (pct > 1) { points++; reasons.push(`前日比は${pct.toFixed(2)}%です`); }
+      else if (pct < -1) { points--; reasons.push(`前日比は${pct.toFixed(2)}%です`); }
+    }
+    if (q.candle === "陽線") points++;
+    if (q.candle === "陰線") points--;
+    const view = points >= 2 ? "強気" : points <= -2 ? "弱気" : "中立";
+    return {view, tone:view==="強気"?"bull":view==="弱気"?"bear":"neutral",
+      text:`${reasons.join("。")}。短期的には「${view}」の参考評価です。ただし短期株価は地合い・決算・材料で急変します。`};
+  }
+
+  let points = 0, reasons = [];
+  let upside = null;
+  if (Number.isFinite(target) && Number.isFinite(price) && price > 0) {
+    upside=(target/price-1)*100;
+    if (upside >= 10) points += 2; else if (upside <= -10) points -= 2;
+    reasons.push(`目標株価との乖離は${upside.toFixed(1)}%です`);
+  }
+  if (Number.isFinite(growth)) {
+    if (growth > 10) points += 2; else if (growth < 0) points -= 2;
+    reasons.push(`${q.growthType || "利益"}成長率は${growth.toFixed(1)}%です`);
+  }
+  if (Number.isFinite(roe)) {
+    if (roe >= 10) points++; else if (roe < 5) points--;
+    reasons.push(`ROEは${roe.toFixed(1)}%です`);
+  }
+  if (Number.isFinite(equity)) {
+    if (equity >= 40) points++; else if (equity < 20) points--;
+    reasons.push(`自己資本比率は${equity.toFixed(1)}%です`);
+  }
+  if (Number.isFinite(per)) reasons.push(`${q.perType || ""}PERは${per.toFixed(1)}倍です`);
+  const view = points >= 3 ? "強気" : points <= -2 ? "弱気" : "中立";
+  const basis = reasons.length ? reasons.join("。") : "取得できる財務指標が限られています";
+  return {view, tone:view==="強気"?"bull":view==="弱気"?"bear":"neutral", upside,
+    text:`${basis}。長期的には「${view}」の参考評価です。業績・競争環境・景気の変化で見通しは変わります。`};
+}
+
+function detailShortRange(q) {
+  const price=Number(q.price);
+  if (!Number.isFinite(price) || price <= 0) return null;
+  let vol=Number(q.recentDailyVolatility);
+  // 直近20営業日の1日変動率標準偏差を使い、約5営業日の値幅を参考レンジ化
+  if (!Number.isFinite(vol) || vol <= 0) vol=2;
+  const fiveDayMove=Math.min(20, Math.max(2, vol * Math.sqrt(5) * 1.5));
+  return {low:price*(1-fiveDayMove/100), high:price*(1+fiveDayMove/100), pct:fiveDayMove};
+}
+
+async function searchDetailStocks() {
+  const input=document.getElementById("detailSearchInput");
+  const box=document.getElementById("detailSearchResults");
+  const result=document.getElementById("detailEvaluationResult");
+  const raw=(input?.value || "").trim();
+  if (!raw) { box.innerHTML="<p class='muted'>銘柄コード、日本語名称、英語名称を入力してください。</p>"; return; }
+  box.innerHTML="<p class='loading'>東証銘柄を検索しています...</p>";
+  result.innerHTML="";
+  try {
+    let matches=[];
+    if (/^[0-9A-Za-z]{3,5}$/.test(raw)) {
+      matches.push({code:raw.replace(/\.T$/i,""),name:jpName(raw)||getName(raw)||raw});
+    }
+    matches.push(...await searchTseCompanies(raw));
+    const unique=[...new Map(matches.map(x=>[String(x.code).toUpperCase(),x])).values()].slice(0,30);
+    if (!unique.length) { box.innerHTML="<p class='muted'>該当する東証銘柄が見つかりませんでした。</p>"; return; }
+    box.innerHTML=`<div class="mobile-stock-table-wrap" style="overflow-x:auto"><table class="mobile-stock-table"><tr><th>コード</th><th>名称</th><th></th></tr>${unique.map(x=>{
+      const c=escapeHtml(String(x.code)); const n=escapeHtml(String(x.name||x.code));
+      return `<tr><td>${c}</td><td>${n}</td><td><button class="btn btn-primary btn-sm" onclick="evaluateDetailStock('${c}')">詳細評価</button></td></tr>`;
+    }).join("")}</table></div>`;
+  } catch(e) { box.innerHTML=`<p class="muted">検索に失敗しました：${escapeHtml(e.message)}</p>`; }
+}
+
+async function evaluateDetailStock(code) {
+  const result=document.getElementById("detailEvaluationResult");
+  result.innerHTML=`<p class="loading">${escapeHtml(code)} を詳細評価しています...</p>`;
+  try {
+    const q=await fetchQuote(code);
+    await attachIntradayOutlook(q);
+    let jp=jpName(code) || getName(code) || "";
+    if (!jp || String(jp).trim().toUpperCase() === String(code).trim().toUpperCase()) jp="";
+    let en="";
+    try {
+      const sr=await fetch(`${API_BASE}/api/search?q=${encodeURIComponent(code)}`);
+      if (sr.ok) {
+        const sd=await sr.json();
+        const hit=(sd.quotes||[]).find(x=>String(x.symbol||"").replace(/\.T$/i,"").toUpperCase()===String(code).toUpperCase());
+        const apiLong=hit?.longname || "";
+        const apiShort=hit?.shortname || "";
+        if (!jp) {
+          const candidate=[apiLong,apiShort].find(v => v && /[ぁ-んァ-ヶ一-龠々]/.test(v));
+          if (candidate) jp=candidate;
+        }
+        en=[apiLong,apiShort].find(v => v && v !== jp && /[A-Za-z]/.test(v)) || "";
+      }
+     } catch(e) {}
+    if (!jp) jp="名称取得不可";
+    const short=detailTrendText(q,"short");
+    const long=detailTrendText(q,"long");
+    const range=detailShortRange(q);
+    const price=q.price==null ? "—" : `${Number(q.price).toLocaleString("ja-JP",{maximumFractionDigits:1})}円`;
+    const targetPrice=q.target==null ? "—" : `${Number(q.target).toLocaleString("ja-JP",{maximumFractionDigits:1})}円`;
+    const targetGap=(q.target!=null && q.price!=null && Number(q.price)>0) ? (Number(q.target)/Number(q.price)-1)*100 : null;
+    const targetGapText=targetGap==null ? "—" : `${targetGap>=0?"+":""}${targetGap.toFixed(1)}%`;
+    const rangeText=range ? `${range.low.toLocaleString("ja-JP",{maximumFractionDigits:0})}円 ～ ${range.high.toLocaleString("ja-JP",{maximumFractionDigits:0})}円` : "—";
+    const fav=loadFavs().some(f=>String(f.code).toUpperCase()===String(code).toUpperCase());
+    result.innerHTML=`
+      <div class="detail-eval-card">
+        <h3 class="detail-card-title">
+          <a href="${detailChartUrl(code)}" target="_blank" rel="noopener">${escapeHtml(code)}</a>
+          <span>｜</span>
+          <a href="${detailShikihoUrl(code)}" target="_blank" rel="noopener">${escapeHtml(jp)}</a>
+        </h3>
+        <div class="detail-industry"><b>業種：</b>${escapeHtml(q.industry || "—")}</div>
+        <div class="detail-price-summary">
+          <div><span>現在株価</span><strong>${q.price != null ? `${price}` : price}</strong></div>
+          <div><span>目標株価</span><strong>${q.target != null ? `${targetPrice}` : targetPrice}</strong></div>
+          <div><span>目標株価との差</span><strong class="${targetGap==null?"":targetGap>=0?"price-positive":"price-negative"}">${targetGapText}</strong></div>
+        </div>
+        <div class="detail-outlook ${short.tone}"><h3>短期視点</h3><div class="detail-view">${escapeHtml(short.view)}</div>
+          <p><b>短期の予想レンジ（約5営業日の参考値）：</b> ${rangeText}</p>
+          <p>${escapeHtml(short.text)}</p>
+        </div>
+        <div class="detail-outlook ${long.tone}"><h3>長期視点</h3><div class="detail-view">${escapeHtml(long.view)}</div>
+          <p>${escapeHtml(long.text)}</p>
+        </div>
+        ${intradayOutlookHtml(q)}
+        <p class="muted">※ 短期レンジは直近の値動きから計算した統計的な参考範囲で、到達を保証する予想価格ではありません。目標株価は取得できた場合のみ表示します。将来の株価を保証するものではありません。</p>
+        <button class="btn btn-primary" type="button" ${fav?"disabled":""}
+          onclick="addDetailFavorite('${escapeHtml(code)}','${escapeHtml(jp).replace(/'/g,"&#39;")}')">${fav?"お気に入り登録済み":"お気に入り追加"}</button>
+      </div>`;
+  } catch(e) { result.innerHTML=`<p class="muted">詳細評価を取得できませんでした：${escapeHtml(e.message)}</p>`; }
+}
+function addDetailFavorite(code,name) {
+  const list=loadFavs();
+  if (list.some(f=>String(f.code).toUpperCase()===String(code).toUpperCase())) { showMsg("既に登録済みです","err"); return; }
+  list.push({code,name});
+  saveFavs(list);
+  downloadFavoritesBackup(list);
+  renderFavList();
+  showMsg(code+" "+name+" をお気に入りに追加しました","ok");
+  evaluateDetailStock(code);
+}
+
+
+// ========== お気に入りUI ==========
+
+// 検索用カタログ（日本語名＋コード）
+function getCatalog() {
+  const map = {};
+  Object.keys(JP_NAMES).forEach(code => { map[code] = JP_NAMES[code]; });
+  RECOMMENDED.forEach(s => { map[s.code] = s.name || map[s.code] || s.code; });
+  return Object.keys(map).map(code => ({ code, name: map[code] }));
+}
+
+function normalizeQuery(s) {
+  return s.normalize("NFKC").toLowerCase().replace(/[\s\u3000]+/g, "").trim();
+}
+
+async function searchTseCompanies(query) {
+  const url = `${API_BASE}/api/search?q=${encodeURIComponent(query)}`;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error("検索に失敗しました");
+  const data = await response.json();
+  return (data.quotes || [])
+    .filter(q => q.quoteType === "EQUITY" && /^(?:\d{4}|\d{3}[A-Z])\.T$/.test(q.symbol || ""))
+    .map(q => ({ code: q.symbol.replace(/\.T$/i, ""), name: jpName(q.symbol) || q.longname || q.shortname || q.symbol }));
+}
+
+function renderSearchMatches(matches, query) {
+  const box = document.getElementById("searchResults");
+  const unique = new Map(matches.map(item => [item.code, item]));
+  const list = Array.from(unique.values()).slice(0, 40);
+  if (!list.length) {
+    box.innerHTML = "<p class='muted'>該当する東証銘柄が見つかりませんでした。会社名の一部または銘柄コードをお試しください。</p>";
+    return;
+  }
+  let html = `<div style="max-height:240px; overflow-y:auto; border:1px solid #ddd; border-radius:8px; background:#fafbfc;">
+    <table><tr><th>コード</th><th>会社名</th><th></th></tr>`;
+  list.forEach(m => {
+    const safeName = (m.name || "").replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+    html += `<tr><td><b>${m.code}</b></td><td>${m.name}</td>
+      <td><button type="button" class="btn btn-primary btn-sm" onclick="selectAndAdd('${m.code}','${safeName}')">選択して追加</button></td></tr>`;
+  });
+  html += `</table></div><p class="muted">候補 ${list.length} 件（東証上場銘柄）</p>`;
+  box.innerHTML = html;
+}
+
+let searchTimer = null;
+let searchSequence = 0;
+function onSearchInput() {
+  const raw = document.getElementById("addCode").value.trim();
+  const box = document.getElementById("searchResults");
+  if (searchTimer) clearTimeout(searchTimer);
+  const sequence = ++searchSequence;
+  if (!raw) { box.innerHTML = ""; return; }
+  searchTimer = setTimeout(() => searchCompanies(raw, sequence), 350);
+}
+
+async function searchCompanies(raw, sequence = ++searchSequence) {
+  const box = document.getElementById("searchResults");
+  const query = normalizeQuery(raw);
+  const matches = [];
+  const catalog = getCatalog();
+  Object.keys(NAME_ALIASES).forEach(alias => {
+    if (normalizeQuery(alias).includes(query) || query.includes(normalizeQuery(alias))) {
+      const code = NAME_ALIASES[alias];
+      matches.push({ code, name: jpName(code) || alias });
+    }
+  });
+  catalog.forEach(item => {
+    if (normalizeQuery(item.code).includes(query) || normalizeQuery(item.name).includes(query)) matches.push(item);
+  });
+  box.innerHTML = "<p class='muted'>東証上場銘柄を検索しています...</p>";
+  try {
+    matches.push(...await searchTseCompanies(raw));
+  } catch (e) {
+    // オンライン検索が使えない場合も、内蔵の銘柄候補を表示する
+  }
+  if (sequence !== searchSequence || document.getElementById("addCode").value.trim() !== raw) return;
+  renderSearchMatches(matches, raw);
+}
+function addFavoriteEntry(code, name) {
+  const list = loadFavs();
+  if (list.some(f => String(f.code).toUpperCase() === code.toUpperCase())) {
+    showMsg("既に登録済みです", "err");
+    return false;
+  }
+  const display = jpName(code) || name || code;
+  list.push({ code, name: display });
+  saveFavs(list);
+  // 追加操作はユーザー操作中なので、最新のお気に入りを端末へ自動バックアップする。
+  // このJSONファイルはブラウザーのサイトデータを削除しても「ダウンロード/ファイル」に残る。
+  downloadFavoritesBackup(list);
+  document.getElementById("addCode").value = "";
+  document.getElementById("searchResults").innerHTML = "";
+  showMsg(code + " " + display + " を追加しました", "ok");
+  trackEvent("stock_add_favorite", { stock_code: String(code) });
+  renderFavList();
+  return true;
+}
+
+function selectAndAdd(code, name) {
+  addFavoriteEntry(code, name);
+}
+function jpName(code) {
+  code = String(code).replace(/\.T$/i, "").trim();
+  return JP_NAMES[code] || "";
+}
+
+function displayName(code, storedName) {
+  const jp = jpName(code);
+  if (jp) return jp;
+  if (storedName && !/^[A-Za-z0-9 \.&,\\-]+$/.test(storedName)) return storedName;
+  return code;
+}
+
+async function renderFavList() {
+  const list = loadFavs();
+  const box = document.getElementById("favList");
+  if (!list.length) { box.innerHTML = "<p>登録銘柄がありません</p>"; return; }
+
+  box.innerHTML = `<p class="loading">業種情報を取得しています...</p>`;
+  const industries = {};
+  await Promise.all(list.map(async f => {
+    try {
+      const q = await fetchQuote(f.code);
+      industries[f.code] = q.industry || RECOMMENDED_INDUSTRIES[f.code] || "—";
+    } catch (e) {
+      industries[f.code] = RECOMMENDED_INDUSTRIES[f.code] || "—";
+    }
+  }));
+
+  let html = `<p class="muted fav-count">全 ${list.length} 件</p>`;
+  html += `<div class="favorite-list-wrap">
+    <table class="favorite-responsive-table">
+      <thead><tr><th>#</th><th>コード</th><th>会社名</th><th>業種</th><th>登録元</th><th>操作</th></tr></thead><tbody>`;
+
+  list.forEach((f, i) => {
+    const code = String(f.code).replace(/\.T$/i, "");
+    const name = displayName(code, f.name);
+    const industry = escapeHtml(industries[f.code] || "—");
+    const source = f.source === "shareholder_benefit"
+      ? '<span class="favorite-source-badge">株主優待から追加</span>' : "—";
+    html += `<tr class="favorite-card-row" data-fav-code="${escapeHtml(code)}">
+      <td class="favorite-number" data-label="#">${i + 1}</td>
+      <td class="favorite-code" data-label="コード"><a class="code" href="https://finance.yahoo.co.jp/quote/${encodeURIComponent(code)}.T" target="_blank" rel="noopener">${escapeHtml(code)}</a></td>
+      <td class="favorite-name" data-label="会社名"><a class="name" href="https://shikiho.toyokeizai.net/stocks/${encodeURIComponent(code)}/info" target="_blank" rel="noopener">${escapeHtml(name)}</a></td>
+      <td data-label="業種">${industry}</td>
+      <td data-label="登録元">${source}</td>
+      <td class="favorite-action" data-label="操作"><button class="btn btn-danger btn-sm" onclick="removeFavorite('${code}', this)">お気に入りから削除</button></td>
+    </tr>`;
+  });
+  html += `</tbody></table></div>`;
+  box.innerHTML = html;
+}
+
+function addFavorite() {
+  const input = document.getElementById("addCode").value.trim().replace(/\.T$/i, "");
+  if (!input) { showMsg("コードまたは会社名を入力してください", "err"); return; }
+  trackEvent("stock_search", { search_type: /^[0-9A-Za-z]{3,5}$/.test(input) ? "code" : "name" });
+  if (searchTimer) clearTimeout(searchTimer);
+  if (/^[0-9A-Za-z]{3,5}$/.test(input)) {
+    addFavoriteByCode(input);
+    return;
+  }
+  const sequence = ++searchSequence;
+  document.getElementById("searchResults").innerHTML = "";
+  searchCompanies(input, sequence);
+  showMsg("東証銘柄を検索しています。候補から選択してください", "info");
+}
+
+async function addFavoriteByCode(code) {
+  if (loadFavs().some(f => String(f.code).toUpperCase() === code.toUpperCase())) {
+    showMsg("既に登録済みです", "err");
+    return;
+  }
+  let name = jpName(code);
+  if (!name) {
+    try {
+      const matches = await searchTseCompanies(code);
+      const match = matches.find(item => item.code.toUpperCase() === code.toUpperCase());
+      if (match) name = match.name;
+    } catch (e) {
+      showMsg("銘柄名を取得できません。検索サーバーが起動しているか確認してください", "err");
+      return;
+    }
+  }
+  if (!name) {
+    showMsg("東証銘柄が見つかりませんでした", "err");
+    return;
+  }
+  addFavoriteEntry(code, name);
+}
+function removeFavorite(code, button = null) {
+  const normalized = String(code).replace(/\.T$/i, "").toUpperCase();
+  const list = loadFavs().filter(f =>
+    String(f.code).replace(/\.T$/i, "").toUpperCase() !== normalized
+  );
+  saveFavs(list);
+
+  // 一覧全体は再描画せず、削除した銘柄の行/カードだけを消す。
+  const target = button?.closest("tr[data-fav-code], .favorite-mobile-card");
+  if (target) target.remove();
+
+  const box = document.getElementById("favList");
+  const count = list.length;
+  const countEl = box?.querySelector(".fav-count");
+  if (countEl) {
+    countEl.textContent = `全 ${count} 件`;
+  }
+  if (!count && box) box.innerHTML = "<p>登録銘柄がありません</p>";
+
+  // スマホカードの表示番号だけ振り直す。
+  box?.querySelectorAll("tr.favorite-card-row .favorite-number").forEach((el, i) => {
+    el.textContent = i + 1;
+  });
+  showMsg(code + " をお気に入りから削除しました", "ok");
+}
+function refreshNames() {
+  const list = loadFavs().map(f => ({ ...f, code: f.code, name: jpName(f.code) || f.name || f.code }));
+  saveFavs(list);
+  showMsg("会社名を日本語で更新しました", "ok");
+  renderFavList();
+}
+function resetFavorites() {
+  saveFavs(JSON.parse(JSON.stringify(DEFAULT_FAVS)));
+  showMsg("初期値に戻しました", "ok");
+  renderFavList();
+}
+
+// ========== 市場データ取得 ==========
+async function fetchQuote(code) {
+  const symbol = code.includes(".") ? code : code + ".T";
+  const codeOnly = code.replace(/\.T$/i, "");
+  const url = `${API_BASE}/api/chart?symbol=${encodeURIComponent(symbol)}&interval=1d&range=3mo`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  const data = await res.json();
+  const result = data.chart?.result?.[0];
+  if (!result) throw new Error("データなし");
+  const meta = result.meta || {};
+  const quotes = result.indicators?.quote?.[0] || {};
+  const closes = quotes.close || [];
+  const opens = quotes.open || [];
+  const n = closes.length;
+  const validCloses = closes.map(Number).filter(value => Number.isFinite(value) && value > 0);
+  const price = meta.regularMarketPrice ?? closes[n-1];
+
+  // 前日比は「現在値」と同じ基準の前営業日終値を使う。
+  // chartPreviousClose はチャート範囲の先頭以前の終値になる場合があり、
+  // 3mo指定では前日終値ではないため、前日比%が大きく誤ることがある。
+  const metaPrev = meta.regularMarketPreviousClose;
+  const lastClose = Number(closes[n - 1]);
+  const previousCloseInSeries = Number(closes[n - 2]);
+  let prev = Number(metaPrev);
+
+  if (!Number.isFinite(prev) || prev <= 0) {
+    // 最新の日足closeが現在値とほぼ同じなら、その1本前を前日終値にする。
+    const currentPrice = Number(price);
+    const latestIsCurrent = Number.isFinite(lastClose) && Number.isFinite(currentPrice)
+      && Math.abs(lastClose - currentPrice) <= Math.max(0.01, Math.abs(currentPrice) * 0.0005);
+    prev = latestIsCurrent ? previousCloseInSeries : lastClose;
+  }
+
+  const current = Number(price);
+  const change = (Number.isFinite(current) && Number.isFinite(prev) && prev > 0)
+    ? current - prev : null;
+  let changePct = change == null ? null : (change / prev * 100);
+  let candle = "データ不足";
+  if (n >= 1 && opens[n-1] != null && closes[n-1] != null) {
+    if (closes[n-1] > opens[n-1]) candle = "陽線";
+    else if (closes[n-1] < opens[n-1]) candle = "陰線";
+    else candle = "同時線";
+  }
+  let score = 50;
+  if (changePct != null) {
+    if (changePct > 3) score += 5;
+    else if (changePct < -3) score -= 5;
+  }
+  if (candle === "陽線") score += 8;
+  else if (candle === "陰線") score -= 8;
+
+  const clampScore = value => Math.max(0, Math.min(100, value));
+  const returnOver = days => validCloses.length > days
+    ? (validCloses[validCloses.length - 1] / validCloses[validCloses.length - 1 - days] - 1) * 100
+    : null;
+  const fiveDayReturn = returnOver(5);
+  const twentyDayReturn = returnOver(20);
+  const hasMomentum = fiveDayReturn != null || twentyDayReturn != null;
+  const shortTermStrength = hasMomentum
+    ? Math.round(clampScore(50 + (fiveDayReturn || 0) * 3 + (twentyDayReturn || 0) * 0.75))
+    : null;
+  const stabilityReturns = validCloses.slice(-22).slice(1).map((value, index) => (value / validCloses.slice(-22)[index] - 1) * 100);
+  let stability = null;
+  if (stabilityReturns.length >= 5) {
+    const mean = stabilityReturns.reduce((sum, value) => sum + value, 0) / stabilityReturns.length;
+    const volatility = Math.sqrt(stabilityReturns.reduce((sum, value) => sum + (value - mean) ** 2, 0) / stabilityReturns.length);
+    stability = Math.round(clampScore(100 - volatility * 12));
+  }
+  let peak = null, maxDrawdown = null;
+  for (const close of validCloses.slice(-63)) {
+    peak = peak == null ? close : Math.max(peak, close);
+    const drawdown = (close / peak - 1) * 100;
+    maxDrawdown = maxDrawdown == null ? drawdown : Math.min(maxDrawdown, drawdown);
+  }
+  const recentReturns = validCloses.slice(-21).slice(1).map((value, index) => {
+    const base = validCloses.slice(-21)[index];
+    return base > 0 ? (value / base - 1) * 100 : null;
+  }).filter(Number.isFinite);
+  let recentDailyVolatility = null;
+  if (recentReturns.length >= 5) {
+    const avg = recentReturns.reduce((a,b)=>a+b,0) / recentReturns.length;
+    recentDailyVolatility = Math.sqrt(recentReturns.reduce((a,b)=>a+(b-avg)**2,0) / recentReturns.length);
+  }
+
+  const crashRiskPct = maxDrawdown == null ? null : Math.abs(maxDrawdown);
+  const crashRisk = crashRiskPct == null ? null : (crashRiskPct >= 15 ? "高" : (crashRiskPct >= 8 ? "中" : "低"));
+
+  // データソースの役割分担（v36.1）
+  // 株価・PERなど市場時点値 = 現在の市場データ取得系
+  // ROE・売上成長率・自己資本比率など財務実績 = EDINETのみ
+  // 目標株価・会社予想などEDINETにない予想値 = 従来の予想データ取得系
+  // EDINETで取得できる財務実績をYahoo側で補完しない。
+  let target = null;
+  let rec = null;
+  let per = null;
+  let perType = "予想";
+  let roe = null;
+  let growthRate = null;
+  let growthType = "売上";
+  let equityRatio = null;
+  let industry = RECOMMENDED_INDUSTRIES[codeOnly] || null;
+
+  // 目標株価・推奨だけは従来APIを維持（財務4指標とは完全分離）。
+  try {
+    const r2 = await fetch(`${API_BASE}/api/quoteSummary?symbol=${encodeURIComponent(symbol)}`);
+    if (r2.ok) {
+      const d2 = await r2.json();
+      const summary = d2.quoteSummary?.result?.[0] || {};
+      const fd = summary.financialData || {};
+      const profile = summary.assetProfile || {};
+      const raw = value => {
+        const x = Number(value?.raw ?? value);
+        return Number.isFinite(x) ? x : null;
+      };
+      target = raw(fd.targetMeanPrice);
+      rec = fd.recommendationKey || null;
+      const stats = summary.defaultKeyStatistics || {};
+      const detail = summary.summaryDetail || {};
+      const jpMetrics = summary.jpMetrics || {};
+      per = raw(stats.trailingPE) ?? raw(detail.trailingPE) ?? raw(stats.forwardPE) ?? raw(detail.forwardPE) ?? raw(jpMetrics.per);
+      industry = profile.industry || profile.sector || jpMetrics.industry || industry;
+    }
+  } catch (e) { /* 目標株価が取れなくても続行 */ }
+
+  // v36.8: PER・目標株価・前日比%は財務実績と分離した市場データ経路でも補完。
+  try {
+    const rm = await fetch(`${API_BASE}/api/marketSnapshot?symbol=${encodeURIComponent(symbol)}`);
+    if (rm.ok) {
+      const mm = await rm.json();
+      const n = value => {
+        const x = Number(value?.raw ?? value);
+        return Number.isFinite(x) ? x : null;
+      };
+      if (per == null) per = n(mm.per);
+      if (target == null) target = n(mm.targetMeanPrice);
+      const marketChangePct = n(mm.changePct);
+      if (marketChangePct != null) changePct = marketChangePct;
+    }
+  } catch (e) { /* 市場補完が失敗してもEDINET財務実績は継続 */ }
+
+  // v36.8: 財務実績はEDINETに一本化。
+  // ROE・売上成長率・自己資本比率はEDINET XBRLから取得。
+  // PERだけは現在株価を必要とする市場指標なので従来の市場データを使用する。
+  try {
+    const rf = await fetch(`${API_BASE}/api/fundamentals?symbol=${encodeURIComponent(symbol)}`);
+    if (rf.ok) {
+      const fm = await rf.json();
+      const num = value => {
+        if (value == null || value === "" || value === "—" || value === "-") return null;
+        const x = Number(value);
+        return Number.isFinite(x) ? x : null;
+      };
+      roe = num(fm.roe);
+      growthRate = num(fm.growthRate);
+      equityRatio = num(fm.equityRatio);
+      growthType = fm.growthType || "売上";
+    }
+  } catch (e) {
+    /* EDINET取得失敗時だけ財務実績を — 表示。市場データ側は継続する。 */
+  }
+
+
+  if (target && price && target > price * 1.1) score += 10;
+  else if (target && price && target < price * 0.95) score -= 5;
+  if (rec === "buy" || rec === "strong_buy") score += 8;
+  else if (rec === "sell" || rec === "strong_sell") score -= 8;
+  score = Math.max(0, Math.min(100, score));
+
+  let recommendLabel = "—";
+  if (score >= 75) recommendLabel = "強くおすすめ";
+  else if (score >= 55) recommendLabel = "おすすめ";
+  else if (score >= 40) recommendLabel = "様子見";
+  else recommendLabel = "慎重";
+
+  return {
+    code: codeOnly,
+    name: jpName(codeOnly) || getName(codeOnly) || codeOnly,
+    price, change, changePct, candle, score, target, rec, recommendLabel,
+    shortTermStrength, stability, crashRisk, crashRiskPct, recentDailyVolatility, per, perType,
+    roe, equityRatio,
+    growthRate, growthType, industry,
+    asOf: meta.regularMarketTime || null,
+    currency: meta.currency || "JPY",
+  };
+}
+
+async function fetchPtsInfo(code) {
+  const symbol = code.includes(".") ? code : code + ".T";
+  try {
+    const response = await fetch(`${API_BASE}/api/pts?symbol=${encodeURIComponent(symbol)}`);
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    return null;
+  }
+}
+
+function recommendationBadge(label) {
+  const styles = {
+    "強くおすすめ": "recommendation-strong",
+    "おすすめ": "recommendation-normal",
+    "様子見": "recommendation-watch",
+    "慎重": "recommendation-cautious",
+    "判定不可": "recommendation-unavailable",
+  };
+  const text = label || "判定不可";
+  return `<span class="recommendation-badge ${styles[text] || "recommendation-unavailable"}">${escapeHtml(text)}</span>`;
+}
+
+function metricScore(value) {
+  return value == null || !Number.isFinite(Number(value)) ? "—" : `${Math.round(Number(value))}/100`;
+}
+function metricPercent(value) {
+  return value == null || !Number.isFinite(Number(value)) ? "—" : `${Number(value).toFixed(1)}%`;
+}
+function crashRiskDisplay(row) {
+  if (!row.crashRisk) return "—";
+  return `${row.crashRisk}${row.crashRiskPct == null ? "" : ` (${Number(row.crashRiskPct).toFixed(1)}%)`}`;
+}
+function perDisplay(row) {
+  if (row.per == null || !Number.isFinite(Number(row.per))) return "—";
+  return `${Number(row.per).toFixed(1)}倍${row.perType === "予想" ? " (予想)" : ""}`;
+}
+
+function getValuation(target, price) {
+  const targetValue = Number(target), currentValue = Number(price);
+  if (target == null || price == null || !Number.isFinite(targetValue) || !Number.isFinite(currentValue) || currentValue <= 0) return {label: "判定不可", cls: "value-fair", spread: null};
+  const spread = (targetValue / currentValue - 1) * 100;
+  if (spread >= 10) return {label: "割安", cls: "value-cheap", spread};
+  if (spread <= -10) return {label: "割高", cls: "value-expensive", spread};
+  return {label: "妥当", cls: "value-fair", spread};
+}
+
+function valuationLabel(target, price) {
+  const v = getValuation(target, price);
+  if (v.spread == null) return `<span class="${v.cls}">${v.label}</span>`;
+  const pct = `${v.spread >= 0 ? "+" : ""}${v.spread.toFixed(1)}%`;
+  return `<span class="${v.cls}" title="現在値に対する目標株価の乖離">${v.label} (${pct})</span>`;
+}
+
+// ========== 為替情報 ==========
+let fxLoaded = false;
+let fxLoadPromise = null;
+async function loadFxPage(force = false) {
+  if (fxLoadPromise) return fxLoadPromise;
+  if (fxLoaded && !force) return;
+  fxLoadPromise = (async () => {
+    const status = document.getElementById("fxStatus");
+    const quoteBox = document.getElementById("fxQuote");
+    const newsBox = document.getElementById("fxNews");
+    status.textContent = "為替情報を取得しています...";
+    quoteBox.innerHTML = `<p class="loading">レート取得中...</p>`;
+    newsBox.innerHTML = `<p class="loading">ニュース取得中...</p>`;
+    try {
+      const [quoteRes, newsRes] = await Promise.all([
+        fetch(`${API_BASE}/api/fx/quote`),
+        fetch(`${API_BASE}/api/fx/news`)
+      ]);
+      if (!quoteRes.ok) throw new Error(`レート取得に失敗しました (HTTP ${quoteRes.status})`);
+      const q = await quoteRes.json();
+      const n = newsRes.ok ? await newsRes.json() : {news: []};
+      const price = Number(q.price);
+      const change = q.changePercent;
+      const rateClass = q.change > 0 ? "value-positive" : (q.change < 0 ? "value-negative" : "");
+      const asOf = q.asOf ? new Date(q.asOf * 1000).toLocaleString("ja-JP") : "—";
+      const recent = (q.closes || []).filter(Number.isFinite);
+      let outlook = "直近データが不足しているため、この後の円高・円安の方向感は判断できません。";
+      if (recent.length >= 6) {
+        const start = recent[Math.max(0, recent.length - 6)];
+        const move = (recent[recent.length - 1] / start - 1) * 100;
+        if (move >= 0.3) outlook = `直近約5営業日はドル高・円安方向（${move >= 0 ? "+" : ""}${move.toFixed(2)}%）です。この傾向が続く場合、この後も円安方向に進みやすいと見られます。`;
+        else if (move <= -0.3) outlook = `直近約5営業日はドル安・円高方向（${move.toFixed(2)}%）です。この傾向が続く場合、この後も円高方向に進みやすいと見られます。`;
+        else outlook = `直近約5営業日は大きな方向感が見られません（${move >= 0 ? "+" : ""}${move.toFixed(2)}%）。この後の円高・円安は判断しにくく、材料や市場環境で変化します。`;
+      }
+      quoteBox.innerHTML = `<div class="fx-rate">${price.toLocaleString("ja-JP", {minimumFractionDigits: 3, maximumFractionDigits: 3})} 円</div>
+        <div class="${rateClass}">前日比 ${q.change != null ? `${q.change >= 0 ? "+" : ""}${Number(q.change).toFixed(3)}円` : "—"} (${change != null ? `${change >= 0 ? "+" : ""}${Number(change).toFixed(2)}%` : "—"})</div>
+        <p><b>今後の円高・円安の方向感（直近約5営業日ベース）</b><br>${outlook}</p><p class="muted">直近の傾向をもとにした参考コメントです。将来の値動きを保証するものではありません。データ時刻: ${asOf}</p>`;
+      renderFxNews(n.news || []);
+      await loadFxChart("day");
+      fxLoaded = true;
+      status.textContent = "更新しました";
+    } catch (error) {
+      quoteBox.innerHTML = `<p class="value-negative">為替情報を取得できませんでした: ${escapeHtml(error.message)}</p>`;
+      newsBox.innerHTML = `<p class="muted">ニュースを取得できませんでした。</p>`;
+      status.textContent = "取得に失敗しました。しばらくして再取得してください。";
+    } finally {
+      fxLoadPromise = null;
+    }
+  })();
+  return fxLoadPromise;
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+}
+
+function renderFxNews(items) {
+  const box = document.getElementById("fxNews");
+  if (!items.length) { box.innerHTML = `<p class="muted">現在表示できるニュースがありません。</p>`; return; }
+  box.innerHTML = items.map(item => {
+    const date = item.published ? new Date(item.published).toLocaleString("ja-JP", {dateStyle: "short", timeStyle: "short"}) : "";
+    const safeLink = /^https:\/\//i.test(item.link || "") ? item.link : "#";
+    return `<div class="fx-news-item"><a href="${escapeHtml(safeLink)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.title)}</a><div class="muted">${escapeHtml(item.source || "ニュース")}${date ? ` ・ ${date}` : ""}</div></div>`;
+  }).join("");
+}
+
+async function loadFxChart(timeframe) {
+  const chart = document.getElementById("fxChartDiv");
+  if (!chart) return;
+  if (typeof Plotly === "undefined") {
+    chart.innerHTML = `<p class="value-negative">チャートライブラリを読み込めませんでした。</p>`;
+    return;
+  }
+
+  // 選択中の時間足ボタンを明示
+  document.querySelectorAll("#page-fx .tf-btns button").forEach(btn => {
+    const selected = btn.getAttribute("onclick")?.includes(`'${timeframe}'`);
+    btn.classList.toggle("btn-primary", !!selected);
+    btn.classList.toggle("btn-secondary", !selected);
+  });
+
+  // 前回のPlotly描画サイズを残さない
+  try { Plotly.purge(chart); } catch(e) {}
+  chart.innerHTML = `<p class="loading">為替チャートを読み込み中...</p>`;
+
+  try {
+    const response = await fetch(`${API_BASE}/api/fx/chart?timeframe=${encodeURIComponent(timeframe)}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    const result = data.chart?.result?.[0];
+    if (!result) throw new Error("データがありません");
+    const ts = result.timestamp || [];
+    const closes = result.indicators?.quote?.[0]?.close || [];
+    const points = ts.map((stamp, index) => ({time: new Date(stamp * 1000), rate: Number(closes[index])}))
+      .filter(p => Number.isFinite(p.rate));
+    if (!points.length) throw new Error("為替データがありません");
+
+    const label = ({minute:"分足",hour:"時間足",day:"日足",week:"週足",month:"月足"})[timeframe] || "日足";
+    chart.innerHTML = "";
+    await Plotly.newPlot(chart, [{
+      x: points.map(p => p.time),
+      y: points.map(p => p.rate),
+      type: "scatter",
+      mode: "lines",
+      line: {color: "#1a73e8", width: 2},
+      name: "USD/JPY",
+      hovertemplate: "%{x}<br>%{y:.3f} 円<extra></extra>"
+    }], {
+      title: {text:`米ドル/円 ${label}`, x:0.5, xanchor:"center", font:{size:16}},
+      autosize: true,
+      height: window.innerWidth <= 600 ? 320 : 400,
+      margin: window.innerWidth <= 600 ? {t:45,r:12,b:48,l:52} : {t:45,r:20,b:50,l:62},
+      xaxis: {title:{text:"日時"}, automargin:true, rangeslider:{visible:false}},
+      yaxis: {title:{text:"円/米ドル"}, automargin:true, fixedrange:false, tickformat:".2f"},
+      showlegend: false,
+      paper_bgcolor: "rgba(0,0,0,0)",
+      plot_bgcolor: "rgba(0,0,0,0)"
+    }, {
+      responsive: true,
+      displaylogo: false,
+      displayModeBar: false
+    });
+
+    // 初回表示時にX/Y軸をAutoscaleし、実際の表示幅へ再計算
+    requestAnimationFrame(() => {
+      try {
+        Plotly.relayout(chart, {
+          "xaxis.autorange": true,
+          "yaxis.autorange": true
+        }).then(() => Plotly.Plots.resize(chart));
+      } catch(e) {}
+    });
+    // タブ表示直後はレイアウト確定が遅れる場合があるため、もう一度Autoscale
+    setTimeout(() => {
+      try {
+        Plotly.relayout(chart, {
+          "xaxis.autorange": true,
+          "yaxis.autorange": true
+        });
+        Plotly.Plots.resize(chart);
+      } catch(e) {}
+    }, 120);
+  } catch (error) {
+    chart.innerHTML = `<p class="value-negative">チャートを取得できませんでした: ${escapeHtml(error.message)}</p>`;
+  }
+}
+
+function resizeFxChart() {
+  const chart = document.getElementById("fxChartDiv");
+  if (!chart || typeof Plotly === "undefined" || !chart.classList.contains("js-plotly-plot")) return;
+  try {
+    Plotly.relayout(chart, {height: window.innerWidth <= 600 ? 320 : 400});
+    Plotly.Plots.resize(chart);
+  } catch(e) {}
+}
+window.addEventListener("resize", resizeFxChart);
+document.addEventListener("toggle", event => {
+  if (event.target?.classList?.contains("fx-card") && event.target.open) {
+    setTimeout(resizeFxChart, 50);
+  }
+}, true);
+
+async function fetchChartData(code, tf) {
+  const symbol = code.includes(".") ? code : code + ".T";
+  const map = {
+    "分足": {interval:"5m", range:"5d"},
+    "時間足": {interval:"1h", range:"1mo"},
+    "日足": {interval:"1d", range:"6mo"},
+    "週足": {interval:"1wk", range:"2y"},
+    "月足": {interval:"1mo", range:"5y"},
+  };
+  const {interval, range} = map[tf] || map["日足"];
+  const url = `${API_BASE}/api/chart?symbol=${encodeURIComponent(symbol)}&interval=${interval}&range=${range}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  const data = await res.json();
+  const result = data.chart?.result?.[0];
+  if (!result) throw new Error("データなし");
+  const ts = result.timestamp || [];
+  const q = result.indicators?.quote?.[0] || {};
+  const rows = [];
+  for (let i = 0; i < ts.length; i++) {
+    if (q.close?.[i] == null) continue;
+    rows.push({
+      t: new Date(ts[i] * 1000),
+      o: q.open[i], h: q.high[i], l: q.low[i], c: q.close[i], v: q.volume?.[i] ?? 0
+    });
+  }
+  return rows;
+}
+
+
+function yenText(value, digits = 1) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n.toLocaleString("ja-JP", {maximumFractionDigits:digits}) + "円" : "—";
+}
+
+
+// ========== 今日の時間帯別・v29サーバー予測 ==========
+// 予測アルゴリズム本体はRender側 /api/forecast に移動。ブラウザには重み・計算式を置かない。
+async function attachIntradayOutlook(q){
+  const symbol=String(q.code).replace(/\.T$/i,"")+".T";
+  const p=new URLSearchParams({symbol});
+  if(Number.isFinite(Number(q.price)))p.set("price",String(q.price));
+  if(Number.isFinite(Number(q.changePct)))p.set("changePct",String(q.changePct));
+  if(q.name)p.set("name",String(q.name));
+  try{
+    const r=await fetch(`${API_BASE}/api/forecast?${p.toString()}`);
+    if(!r.ok)throw new Error(`予測APIエラー ${r.status}`);
+    const d=await r.json();
+    q.intradayOutlook=d;
+    q.marketContext=d.marketContext||{};
+  }catch(e){
+    q.intradayOutlook={source:"取得失敗",slots:[["寄り付き",50],["10時",50],["昼",50],["14時",50],["大引け",50]],closeEstimate:null,detail:null};
+    q.marketContext={};
+  }
+  return q;
+}
+function fmtCtx(v,d=1,s=""){v=Number(v);return Number.isFinite(v)?v.toFixed(d)+s:"—"}
+function yen0(v){v=Number(v);return Number.isFinite(v)?Math.round(v).toLocaleString('ja-JP'):"—"}
+function intradayOutlookHtml(q){
+ const model=q?.intradayOutlook,slots=model?.slots||[["寄り付き",50],["10時",50],["昼",50],["14時",50],["大引け",50]],overall=Math.round(slots.reduce((a,x)=>a+Number(x[1]||50),0)/slots.length);
+ const line=(label,up)=>{up=Math.round(up);const down=100-up,cls=up>=54?"intraday-up":(up<=46?"intraday-down":"intraday-flat"),main=up>=54?`上がる ${up}%`:(up<=46?`下がる ${down}%`:`上 ${up}% / 下 ${down}%`);return `<div class="intraday-slot"><span>${escapeHtml(label)}</span><strong class="${cls}">${main}</strong><small>上 ${up}% / 下 ${down}%</small></div>`};
+ const cls=overall>=54?"intraday-up":(overall<=46?"intraday-down":"intraday-flat"),text=overall>=54?`上がる ${overall}%`:(overall<=46?`下がる ${100-overall}%`:`上 ${overall}% / 下 ${100-overall}%`),mc=q?.marketContext||{},t=mc.tech||{},st=mc.stock||{},mat=model?.materialScores||{};
+ const factors=`RSI ${fmtCtx(t.rsi)} / MA5 ${fmtCtx(t.ma5)} / MA25 ${fmtCtx(t.ma25)} / MACD ${fmtCtx(t.macdHist,2)} / 出来高倍率 ${fmtCtx(mc.volumeRatio,2,"倍")} / 寄り付き価格 ${fmtCtx(mc.open,1,"円")} / PBR ${fmtCtx(st.pbr,2,"倍")} / 信用買残 ${fmtCtx(st.marginBuy,0)} / 信用売残 ${fmtCtx(st.marginSell,0)} / 信用倍率 ${fmtCtx(st.marginRatio,2,"倍")} / 日経 ${fmtCtx(mc.nikkei?.changePct,2,"%")} / TOPIX ${fmtCtx(mc.topix?.changePct,2,"%")} / NYダウ ${fmtCtx(mc.dow?.changePct,2,"%")} / S&P500 ${fmtCtx(mc.sp500?.changePct,2,"%")} / NASDAQ ${fmtCtx(mc.nasdaq?.changePct,2,"%")} / USDJPY ${fmtCtx(mc.usdJpy?.changePct,2,"%")} / 決算材料 ${fmtCtx(Number(mat.earnings)*100,0)} / ニュース材料 ${fmtCtx(Number(mat.news)*100,0)}`;
+ const sourceNote=model?.source==="server-v29"?"":"<br>※予測APIを取得できなかったため中立表示です。";
+ return `<div class="intraday-outlook"><div class="intraday-title"><span>今日の動向見通し</span><strong class="${cls}">${text}</strong></div><div class="intraday-slots">${slots.map(x=>line(x[0],x[1])).join("")}</div><div class="intraday-caution">${factors}${sourceNote}<br>総合モデル：5分足・出来高・寄り付き・RSI・移動平均・MACD・信用需給・PBR・国内/米国市場・決算・ニュースを利用。予測計算はサーバー側で実行しています。表示確率と大引け予想価格はモデル推定値で、将来の値動きを保証しません。</div>${closingForecastDetailHtml(q,model)}</div>`;
+}
+function closingForecastDetailHtml(q,model){
+ const d=model?.detail;
+ if(!d)return `<div class="closing-forecast-detail" style="margin-top:10px;padding-top:10px;border-top:2px solid #cbd5e1"><strong>🎯 大引け予想価格：取得できませんでした</strong><br><small>サーバー予測を取得できないため、大引け予想を表示できません。</small></div>`;
+ const esc=v=>escapeHtml(String(v??""));
+ return `<div class="closing-forecast-detail" style="margin-top:10px;padding-top:10px;border-top:2px solid #cbd5e1;line-height:1.75;font-size:12px"><div class="closing-forecast-head"><strong>私の中心予想：${yen0(d.rangeLow)}～${yen0(d.rangeHigh)}円</strong><span class="closing-price">🎯 大引け ${yen0(d.center)}円前後</span><small>上昇確率 ${d.upProbability}% ／ 下落確率 ${d.downProbability}%</small></div>その中でも、現時点では<br><br><strong style="font-size:15px">🎯 大引け ${yen0(d.center)}円前後</strong><br><br>を本命にします。<br><br><strong>今日の重要ポイント</strong><br><br>${yen0(d.up1)}円突破<br>→ まず${yen0(d.up2)}円を試す<br>→ ${yen0(d.up2)}円を超えれば${yen0(d.up3)}円方向<br><br>${yen0(d.down1)}円割れ<br>→ 今日の弱さが強まり、${yen0(d.down2)}～${yen0(d.down3)}円まで調整する可能性<br><br>${yen0(d.recovery)}円回復<br>→ 前日終値を取り戻すため、午後の上昇シナリオが強くなります。<br><br>現在は${yen0(d.price)}円なので、「${esc(d.situation)}」と見ます。<br><br>ただし${esc(q?.name||q?.code||"この銘柄")}は、${esc(d.moveDesc)}。短期間の値動きが大きい場合は、利益確定売り／押し目買いなどのリスクにも注意が必要です。<br><br>一方、${esc(d.plus)}。<br><br><strong>結論：今日は「${yen0(d.key)}円を維持できるか」が最大のポイント。私は大引け${yen0(d.center)}円前後、上昇確率${d.upProbability}%、下落確率${d.downProbability}%程度と見ます。</strong><br><br>なお、${yen0(d.upTurn)}円を超えてきた場合は、この予想を一気に上方修正します。逆に${yen0(d.downTurn)}円を割った場合は下方修正です。<br><small style="color:#64748b">※支持線・抵抗線、予想レンジ、確率は取得できたデータからサーバー側で機械的に推定した参考値です。</small></div>`;
+}
+
+// ========== 一括チェック ==========
+async function runCheck(isRec) {
+  const statusId = isRec ? "recStatus" : "checkStatus";
+  const tableId = isRec ? "recTable" : "checkTable";
+  const codes = isRec ? RECOMMENDED.map(r => r.code) : loadFavs().map(f => f.code);
+  if (!codes.length) {
+    showMsg("銘柄がありません", "err");
+    return;
+  }
+  document.getElementById(statusId).innerHTML = `<span class="loading">取得中... (0/${codes.length})</span>`;
+  document.getElementById(tableId).innerHTML = "";
+  const results = [];
+  const renderCurrentResults = () => {
+    results.sort((a, b) => b.score - a.score); // スコア高い順
+    let html = `<div class="mobile-stock-table-wrap"><table class="mobile-stock-table"><thead><tr><th>銘柄</th><th>業種</th><th>現在値</th><th>前日比(%)</th><th>PTS株価</th><th>PTS差額</th><th>目標株価</th><th>株価水準</th><th>短期上昇力</th><th>安定性</th><th>暴落リスク</th><th>PER</th><th>ROE</th><th>成長率</th><th>自己資本比率</th><th>陽線/陰線</th><th>スコア</th><th>おすすめ判定</th><th>今日の動向・大引け予想</th></tr></thead><tbody>`;
+    for (const r of results) {
+      const cls = r.score >= 75 ? "score-high" : (r.score >= 55 ? "score-mid" : "score-low");
+      const price = r.price != null ? r.price.toLocaleString("ja-JP", {maximumFractionDigits:1}) : "-";
+      const ptsPrice = r.ptsPrice != null ? Number(r.ptsPrice).toLocaleString("ja-JP", {maximumFractionDigits:1}) : "—";
+      const ptsClass = r.ptsPrice != null && r.price != null ? (r.ptsPrice > r.price ? "score-high" : (r.ptsPrice < r.price ? "score-low" : "")) : "";
+      const ptsDiffValue = r.ptsPrice != null && r.price != null ? r.ptsPrice - r.price : null;
+      const ptsDiff = ptsDiffValue != null ? (ptsDiffValue > 0 ? "+" : "") + ptsDiffValue.toLocaleString("ja-JP", {maximumFractionDigits:1}) : "—";
+      const ptsDiffClass = ptsDiffValue > 0 ? "value-positive" : (ptsDiffValue < 0 ? "value-negative" : "");
+      const target = r.target != null ? Number(r.target).toLocaleString("ja-JP", {maximumFractionDigits:1}) : "-";
+      const chg = r.changePct != null ? (r.changePct >= 0 ? "+" : "") + r.changePct.toFixed(2) + "%" : "-";
+      const dayDiff = r.changePct != null ? (Number(r.changePct) > 0 ? "+" : "") + Number(r.changePct).toFixed(2) + "%" : (r.changePercent != null ? (Number(r.changePercent) > 0 ? "+" : "") + Number(r.changePercent).toFixed(2) + "%" : "—");
+      const dayDiffValue = r.changePct != null ? Number(r.changePct) : (r.changePercent != null ? Number(r.changePercent) : 0);
+      const dayDiffClass = dayDiffValue > 0 ? "value-positive" : (dayDiffValue < 0 ? "value-negative" : "");
+      let candleLabel = r.candle;
+      if (r.candle === "陽線") candleLabel = "陽線 ↑";
+      else if (r.candle === "陰線") candleLabel = "陰線 ↓";
+      else if (r.candle === "同時線") candleLabel = "同時線 →";
+      html += `<tr class="stock-data-row">
+        <td class="mobile-card-title" data-label="銘柄"><a href="https://finance.yahoo.co.jp/quote/${r.code}.T" target="_blank">${r.code}</a>　<a href="https://shikiho.toyokeizai.net/stocks/${encodeURIComponent(r.code)}/info" target="_blank" rel="noopener">${escapeHtml(r.name)}</a></td>
+        <td class="mobile-card-wide" data-label="業種">${escapeHtml(r.industry || RECOMMENDED_INDUSTRIES[r.code] || "—")}</td>
+        <td data-label="現在値">${r.price != null ? `<a href="https://finance.yahoo.co.jp/quote/${encodeURIComponent(r.code)}.T/chart" target="_blank" rel="noopener" title="株価チャートを開く">${price}円</a>` : price}</td><td data-label="前日比(%)" class="${dayDiffClass}">${dayDiff}</td><td data-label="PTS株価" class="${ptsClass}">${r.ptsPrice != null ? ptsPrice + "円" : ptsPrice}</td><td data-label="PTS差額" class="${ptsDiffClass}">${ptsDiffValue != null ? ptsDiff + "円" : ptsDiff}</td><td data-label="目標株価">${r.target != null ? target + "円" : target}</td><td data-label="株価水準">${valuationLabel(r.target, r.price)}</td>
+        <td data-label="短期上昇力" title="直近5営業日と約20営業日の騰落率から算出">${metricScore(r.shortTermStrength)}</td><td data-label="安定性" title="直近約1か月の日次変動率から算出">${metricScore(r.stability)}</td><td data-label="暴落リスク" title="直近約3か月の最大下落幅">${crashRiskDisplay(r)}</td><td data-label="PER">${perDisplay(r)}</td><td data-label="ROE">${metricPercent(r.roe)}</td><td data-label="成長率" title="${r.growthType || "利益"}成長率">${metricPercent(r.growthRate)}</td><td data-label="自己資本比率">${metricPercent(r.equityRatio)}</td><td data-label="陽線/陰線">${candleLabel}</td>
+        <td data-label="スコア" class="${cls}">${r.score}</td><td data-label="おすすめ判定">${recommendationBadge(r.recommendLabel)}</td>
+        <td class="intraday-cell">${intradayOutlookHtml(r)}</td>
+      </tr>`;
+    }
+    html += "</tbody></table></div>";
+    const tableBox = document.getElementById(tableId);
+    tableBox.innerHTML = html;  };
+
+  // v36.9: 銘柄ごとに取得完了した時点で即描画する。
+  // 全銘柄完了まで待たない。順位は取得済み銘柄の中で随時更新する。
+  for (let i = 0; i < codes.length; i++) {
+    document.getElementById(statusId).innerHTML =
+      `<span class="loading">取得中... (${i+1}/${codes.length}) ${codes[i]} / 表示済み ${results.length}</span>`;
+    try {
+      const q = await fetchQuote(codes[i]);
+
+      // v36.10 safety net: EDINET 3指標がすべて欠けた場合だけ直接再取得。
+      // cold start等の一時失敗で「—」のまま固定されるのを防ぐ。
+      if (q.roe == null && q.growthRate == null && q.equityRatio == null) {
+        try {
+          const symbol = String(q.code).includes(".") ? String(q.code) : `${q.code}.T`;
+          const rf = await fetch(`${API_BASE}/api/fundamentals?symbol=${encodeURIComponent(symbol)}`);
+          if (rf.ok) {
+            const fm = await rf.json();
+            const n = v => {
+              const x = Number(v);
+              return Number.isFinite(x) ? x : null;
+            };
+            q.roe = n(fm.roe);
+            q.growthRate = n(fm.growthRate);
+            q.equityRatio = n(fm.equityRatio);
+            q.growthType = fm.growthType || q.growthType || "売上";
+          }
+        } catch (e) {}
+      }
+
+      // 市場3項目も欠けている値だけ再補完。既に取得済みの値は上書きしない。
+      if (q.per == null || q.target == null || q.changePct == null) {
+        try {
+          const symbol = String(q.code).includes(".") ? String(q.code) : `${q.code}.T`;
+          const rm = await fetch(`${API_BASE}/api/marketSnapshot?symbol=${encodeURIComponent(symbol)}`);
+          if (rm.ok) {
+            const mm = await rm.json();
+            const n = v => {
+              const x = Number(v?.raw ?? v);
+              return Number.isFinite(x) ? x : null;
+            };
+            if (q.per == null) q.per = n(mm.per);
+            if (q.target == null) q.target = n(mm.targetMeanPrice);
+            if (q.changePct == null) q.changePct = n(mm.changePct);
+          }
+        } catch (e) {}
+      }
+
+      await attachIntradayOutlook(q);
+      const ptsInfo = await fetchPtsInfo(codes[i]);
+      q.ptsPrice = ptsInfo?.price ?? null;
+      const savedName = loadFavs().find(f => String(f.code).toUpperCase() === String(q.code).toUpperCase())?.name || "";
+      const isJapaneseName = savedName && !/^[A-Za-z0-9 .&,\\-]+$/.test(savedName);
+      q.name = jpName(q.code) || (isJapaneseName ? savedName : "") || ptsInfo?.name || q.name;
+      results.push(q);
+    } catch (e) {
+      results.push({
+        code: codes[i], name: getName(codes[i]), price: null, changePct: null,
+        candle: "取得失敗", score: 0, recommendLabel: "判定不可"
+      });
+    }
+
+    // ここで即描画。ブラウザに1フレーム返してから次の銘柄へ進む。
+    renderCurrentResults();
+    document.getElementById(statusId).innerHTML =
+      `<span class="loading">取得中... (${i+1}/${codes.length}) / 表示済み ${results.length}</span>`;
+    await new Promise(requestAnimationFrame);
+    await new Promise(r => setTimeout(r, 100)); // API負荷を抑えつつ待ち時間を短縮
+  }
+
+  renderCurrentResults();
+  document.getElementById(statusId).textContent = `完了: ${results.length} 銘柄`;
+  trackEvent(isRec ? "recommend_check_complete" : "batch_check_complete", { stock_count: results.length });
+  showMsg("チェック完了", "ok");
+}
+
+// ========== おすすめリスト ==========
+let recListLoaded = false;
+function profitComment(r) {
+  if (r.price == null) return "株価データ未取得のため、評価できません。";
+  let summary;
+  if (r.score >= 75) summary = "候補内で上位評価です。上昇材料が相対的に多く見られます。";
+  else if (r.score >= 55) summary = "候補内でやや上向きの評価です。";
+  else if (r.score >= 40) summary = "上昇材料と弱い材料が混在し、方向感は限定的です。";
+  else summary = "弱い材料が目立つため、慎重な確認が必要です。";
+
+  const target = Number(r.target);
+  if (!Number.isFinite(target) || target <= 0) {
+    return `${summary}<br><span class="muted">+10%・+20%・+50%水準: 目標株価がないため比較できません。</span>`;
+  }
+  const current = Number(r.price);
+  const targets = [10, 20, 50].map(pct => {
+    const supported = target >= current * (1 + pct / 100);
+    return `+${pct}%: ${supported ? "平均目標株価がこの水準以上" : "平均目標株価はこの水準未満"}`;
+  });
+  return `${summary}<br><span class="muted">${targets.join(" / ")}。これは取得できた平均目標株価との比較で、到達確率の推定ではありません。</span>`;
+}
+
+function renderRecList(force = false) {
+  const box = document.getElementById("recList");
+  if (recListLoaded && !force) return;
+  recListLoaded = true;
+  trackEvent("recommend_view", { refresh: force ? "yes" : "no" });
+  box.innerHTML = `
+    <p class="muted">現在値・目標株価・陽線/陰線・おすすめ評価を取得しています。上位10社は、このタブのおすすめ候補20社内でスコア順に表示します。</p>
+    <div id="recDetailTable" style="margin-top:12px;"></div>
+  `;
+  loadRecQuotes();
+}
+async function loadRecQuotes() {
+  const box = document.getElementById("recDetailTable");
+  if (!box) return;
+  box.innerHTML = `<p class="loading">取得中...</p>`;
+  const results = [];
+  for (let i = 0; i < RECOMMENDED.length; i++) {
+    const s = RECOMMENDED[i];
+    box.innerHTML = `<p class="loading">取得中... (${i+1}/${RECOMMENDED.length}) ${s.code} ${s.name}</p>`;
+    try {
+      const q = await fetchQuote(s.code);
+      await attachIntradayOutlook(q);
+      q.reason = s.reason;
+      results.push(q);
+    } catch (e) {
+      results.push({
+        code: s.code, name: s.name, price: null, target: null, candle: "取得失敗",
+        score: 0, recommendLabel: "判定不可", reason: s.reason, changePct: null, rec: null
+      });
+    }
+    await new Promise(r => setTimeout(r, 250));
+  }
+  results.sort((a, b) => b.score - a.score);
+
+  const topTen = results.filter(r => r.price != null).slice(0, 10);
+  const topTenBoxes = topTen.map((r, i) => {
+    const cls = r.score >= 75 ? "score-high" : (r.score >= 55 ? "score-mid" : "score-low");
+    const price = Number(r.price).toLocaleString("ja-JP", {maximumFractionDigits: 1});
+    return `<div style="border:1px solid #dfe3e8;border-radius:8px;padding:12px 14px;margin:10px 0;background:#fff;line-height:1.65;">
+      <div style="font-weight:700;margin-bottom:5px;">${i + 1}位　<a href="https://finance.yahoo.co.jp/quote/${encodeURIComponent(r.code)}.T" target="_blank" rel="noopener">${escapeHtml(r.code)}</a>　${escapeHtml(r.name)}</div>
+      <div>現在値：<a href="https://finance.yahoo.co.jp/quote/${encodeURIComponent(r.code)}.T/chart" target="_blank" rel="noopener" title="株価チャートを開く">${price}円</a>　｜　参考スコア：<span class="${cls}">${r.score}/100</span></div>
+      <div style="margin-top:6px;">${profitComment(r)}</div>
+    </div>`;
+  }).join("");
+  const updatedAt = new Date().toLocaleString("ja-JP");
+  const topTenHtml = `<details class="fx-card">
+    <summary>利益可能性スコア 上位10社と評価コメント</summary>
+    <p class="muted">おすすめ候補20社の中で、取得できた最新データによるスコア上位です。スコアは前日比・日足の陽線/陰線・取得できた目標株価とアナリスト評価を使った比較用の参考点で、利益の確率や将来の利益を示すものではありません。株価データは遅延する場合があります。</p>
+    <p class="muted">評価更新時刻: ${updatedAt}</p>
+    <div>${topTenBoxes || `<div style="border:1px solid #dfe3e8;border-radius:8px;padding:12px 14px;margin:10px 0;background:#fff;" class="muted">評価できる株価データがありません。</div>`}</div>
+  </details>`;
+
+  let html = `<div class="mobile-stock-table-wrap" style="max-height:560px; overflow:auto; border:1px solid #eee; border-radius:8px;">
+    <table class="mobile-stock-table"><thead>
+      <tr>
+        <th>#</th><th>コード</th><th>会社名</th><th>業種</th><th>現在値</th><th>前日比(%)</th><th>目標株価</th><th>株価水準</th>
+        <th>短期上昇力</th><th>安定性</th><th>暴落リスク</th><th>PER</th><th>ROE</th><th>成長率</th><th>自己資本比率</th>
+        <th>陽線/陰線</th><th>スコア</th><th>おすすめ判定</th><th>操作</th>
+      </tr></thead><tbody>`;
+  results.forEach((r, i) => {
+    const industry = RECOMMENDED_INDUSTRIES[r.code] || "業種情報なし";
+    const price = r.price != null ? r.price.toLocaleString("ja-JP", {maximumFractionDigits: 1}) : "—";
+    const target = r.target != null ? Number(r.target).toLocaleString("ja-JP", {maximumFractionDigits: 1}) : "—";
+    const dayDiff = r.changePct != null ? (Number(r.changePct) > 0 ? "+" : "") + Number(r.changePct).toFixed(2) + "%" : (r.changePercent != null ? (Number(r.changePercent) > 0 ? "+" : "") + Number(r.changePercent).toFixed(2) + "%" : "—");
+    const dayDiffValue = r.changePct != null ? Number(r.changePct) : (r.changePercent != null ? Number(r.changePercent) : 0);
+    const dayDiffClass = dayDiffValue > 0 ? "value-positive" : (dayDiffValue < 0 ? "value-negative" : "");
+    let candle = r.candle || "—";
+    if (candle === "陽線") candle = "陽線 ↑";
+    else if (candle === "陰線") candle = "陰線 ↓";
+    else if (candle === "同時線") candle = "同時線 →";
+    const cls = r.score >= 75 ? "score-high" : (r.score >= 55 ? "score-mid" : "score-low");
+    html += `<tr class="stock-data-row" title="業種: ${industry}">
+      <td class="mobile-card-title" data-label="銘柄">${i+1}位　<a href="https://finance.yahoo.co.jp/quote/${r.code}.T" target="_blank">${r.code}</a>　<a href="https://shikiho.toyokeizai.net/stocks/${encodeURIComponent(r.code)}/info" target="_blank" rel="noopener">${escapeHtml(r.name)}</a></td>
+      <td class="mobile-card-wide" data-label="業種">${escapeHtml(r.industry || industry)}</td>
+      <td data-label="現在値">${r.price != null ? `<a href="https://finance.yahoo.co.jp/quote/${encodeURIComponent(r.code)}.T/chart" target="_blank" rel="noopener" title="株価チャートを開く">${price}円</a>` : price}</td>
+      <td data-label="前日比(%)" class="${dayDiffClass}">${dayDiff}</td>
+      <td data-label="目標株価">${r.target != null ? target + "円" : target}</td>
+      <td data-label="株価水準">${valuationLabel(r.target, r.price)}</td>
+      <td data-label="短期上昇力" title="直近5営業日と約20営業日の騰落率から算出">${metricScore(r.shortTermStrength)}</td>
+      <td data-label="安定性" title="直近約1か月の日次変動率から算出">${metricScore(r.stability)}</td>
+      <td data-label="暴落リスク" title="直近約3か月の最大下落幅">${crashRiskDisplay(r)}</td>
+      <td data-label="PER">${perDisplay(r)}</td>
+      <td data-label="ROE">${metricPercent(r.roe)}</td>
+      <td data-label="成長率" title="${r.growthType || "利益"}成長率">${metricPercent(r.growthRate)}</td>
+      <td data-label="自己資本比率">${metricPercent(r.equityRatio)}</td>
+      <td data-label="陽線/陰線">${candle}</td>
+      <td data-label="スコア" class="${cls}">${r.score}</td>
+      <td data-label="おすすめ判定">${recommendationBadge(r.recommendLabel)}</td>
+      <td data-label="操作"><button class="btn btn-secondary btn-sm" onclick="addFromRec('${r.code}','${(r.name||"").replace(/'/g,"\\'")}')">お気に入り追加</button></td>
+      <td class="intraday-cell">${intradayOutlookHtml(r)}</td>
+    </tr>`;
+  });
+  html += `</tbody></table></div>
+    <p class="muted">スコア順。おすすめ＝スコア55以上、強くおすすめ＝スコア75以上（簡易評価）。目標株価は取得できない場合があります。</p>`;
+  box.innerHTML = topTenHtml + html;
+  refreshFavoriteButtons();
+  showMsg("おすすめ銘柄の評価を更新しました", "ok");
+}
+
+function addFromRec(code, name) {
+  const list = loadFavs();
+  if (list.some(f => String(f.code).toUpperCase() === String(code).toUpperCase())) {
+    showMsg("お気に入りに登録済みです", "err");
+    refreshFavoriteButtons();
+    return;
+  }
+  const n = jpName(code) || name || code;
+  list.push({code, name: n});
+  saveFavs(list);
+  favPage = Math.floor((list.length - 1) / FAV_PER_PAGE);
+  renderFavList();
+  refreshFavoriteButtons();
+  showMsg(code + " " + n + " をお気に入りに追加しました", "ok");
+}
+
+function refreshFavoriteButtons() {
+  const favCodes = new Set(loadFavs().map(f => String(f.code).toUpperCase()));
+  document.querySelectorAll('button[onclick^="addFromRec("]').forEach(btn => {
+    const m = btn.getAttribute("onclick")?.match(/^addFromRec\('([^']+)'/);
+    if (!m) return;
+    const registered = favCodes.has(String(m[1]).toUpperCase());
+    btn.disabled = registered;
+    btn.textContent = registered ? "お気に入り登録済み" : "お気に入り追加";
+  });
+}
+
+// ========== 値上がり・値下がりランキング ==========
+function renderMoverTable(title, rows) {
+  const body = rows.map((r, i) => {
+    const cls = r.score >= 75 ? "score-high" : (r.score >= 55 ? "score-mid" : "score-low");
+    const code = escapeHtml(r.code);
+    const name = escapeHtml(r.name || r.code);
+    const price = r.price != null ? Number(r.price).toLocaleString("ja-JP", {maximumFractionDigits:1}) : "—";
+    const ptsPrice = r.ptsPrice != null ? Number(r.ptsPrice).toLocaleString("ja-JP", {maximumFractionDigits:1}) : "—";
+    const ptsClass = r.ptsPrice != null && r.price != null ? (r.ptsPrice > r.price ? "score-high" : (r.ptsPrice < r.price ? "score-low" : "")) : "";
+    const ptsDiffValue = r.ptsPrice != null && r.price != null ? r.ptsPrice - r.price : null;
+    const ptsDiff = ptsDiffValue != null ? (ptsDiffValue > 0 ? "+" : "") + ptsDiffValue.toLocaleString("ja-JP", {maximumFractionDigits:1}) : "—";
+    const ptsDiffClass = ptsDiffValue > 0 ? "value-positive" : (ptsDiffValue < 0 ? "value-negative" : "");
+    const target = r.target != null ? Number(r.target).toLocaleString("ja-JP", {maximumFractionDigits:1}) : "—";
+    const dayDiff = r.changePct != null ? (Number(r.changePct) > 0 ? "+" : "") + Number(r.changePct).toFixed(2) + "%" : (r.changePercent != null ? (Number(r.changePercent) > 0 ? "+" : "") + Number(r.changePercent).toFixed(2) + "%" : "—");
+    const dayDiffValue = r.changePct != null ? Number(r.changePct) : (r.changePercent != null ? Number(r.changePercent) : 0);
+    const dayDiffClass = dayDiffValue > 0 ? "value-positive" : (dayDiffValue < 0 ? "value-negative" : "");
+    const chg = r.changePct != null ? (r.changePct >= 0 ? "+" : "") + Number(r.changePct).toFixed(2) + "%" : (r.changePercent != null ? (Number(r.changePercent) >= 0 ? "+" : "") + Number(r.changePercent).toFixed(2) + "%" : "—");
+    let candleLabel = r.candle || "—";
+    if (r.candle === "陽線") candleLabel = "陽線 ↑";
+    else if (r.candle === "陰線") candleLabel = "陰線 ↓";
+    else if (r.candle === "同時線") candleLabel = "同時線 →";
+    return `<tr class="stock-data-row">
+      <td class="mobile-card-title" data-label="銘柄">${i + 1}位　<a href="https://finance.yahoo.co.jp/quote/${encodeURIComponent(code)}.T" target="_blank" rel="noopener">${code}</a>　<a href="https://shikiho.toyokeizai.net/stocks/${encodeURIComponent(code)}/info" target="_blank" rel="noopener">${name}</a></td>
+      <td class="mobile-card-wide" data-label="業種">${escapeHtml(r.industry || RECOMMENDED_INDUSTRIES[r.code] || "—")}</td>
+      <td data-label="現在値">${r.price != null ? `<a href="https://finance.yahoo.co.jp/quote/${encodeURIComponent(code)}.T/chart" target="_blank" rel="noopener" title="株価チャートを開く">${price}円</a>` : price}</td>
+      <td data-label="前日比(%)" class="${dayDiffClass}">${dayDiff}</td>
+      <td data-label="PTS株価" class="${ptsClass}">${r.ptsPrice != null ? ptsPrice + "円" : ptsPrice}</td><td data-label="PTS差額" class="${ptsDiffClass}">${ptsDiffValue != null ? ptsDiff + "円" : ptsDiff}</td><td data-label="目標株価">${r.target != null ? target + "円" : target}</td><td data-label="株価水準">${valuationLabel(r.target, r.price)}</td>
+      <td data-label="短期上昇力" title="直近5営業日と約20営業日の騰落率から算出">${metricScore(r.shortTermStrength)}</td>
+      <td data-label="安定性" title="直近約1か月の日次変動率から算出">${metricScore(r.stability)}</td>
+      <td data-label="暴落リスク" title="直近約3か月の最大下落幅">${crashRiskDisplay(r)}</td>
+      <td data-label="PER">${perDisplay(r)}</td><td data-label="ROE">${metricPercent(r.roe)}</td><td data-label="成長率" title="${r.growthType || "利益"}成長率">${metricPercent(r.growthRate)}</td><td data-label="自己資本比率">${metricPercent(r.equityRatio)}</td>
+      <td data-label="陽線/陰線">${candleLabel}</td><td data-label="スコア" class="${cls}">${r.score ?? 0}</td><td data-label="おすすめ判定">${recommendationBadge(r.recommendLabel)}</td>
+      <td class="mobile-card-wide" data-label="操作"><button class="btn btn-secondary btn-sm" onclick="addFromRec('${r.code}','${(r.name || r.code).replace(/\\/g,"\\\\").replace(/'/g,"\\'")}')">お気に入り追加</button></td>
+      <td class="intraday-cell">${intradayOutlookHtml(r)}</td>
+    </tr>`;
+  }).join("");
+  const empty = `<tr><td colspan="21" class="muted">ランキングデータがありません</td></tr>`;
+  return `<section style="flex:1 1 100%;min-width:320px"><h3>${title}</h3><div class="mobile-stock-table-wrap" style="overflow-x:auto"><table class="mobile-stock-table"><thead><tr><th>順位</th><th>コード</th><th>銘柄名</th><th>業種</th><th>現在値</th><th>前日比(%)</th><th>PTS株価</th><th>PTS差額</th><th>目標株価</th><th>株価水準</th><th>短期上昇力</th><th>安定性</th><th>暴落リスク</th><th>PER</th><th>ROE</th><th>成長率</th><th>自己資本比率</th><th>陽線/陰線</th><th>スコア</th><th>おすすめ判定</th><th>操作</th></tr></thead><tbody>${body || empty}</tbody></table></div></section>`;
+}
+
+async function enrichMoverRows(rows, status, label) {
+  const results = new Array(rows.length);
+  let completed = 0;
+  const worker = async (index) => {
+    const base = rows[index];
+    try {
+      const q = await fetchQuote(base.code);
+      await attachIntradayOutlook(q);
+      const ptsInfo = await fetchPtsInfo(base.code);
+      q.ptsPrice = ptsInfo?.price ?? null;
+      q.name = jpName(base.code) || base.name || ptsInfo?.name || q.name;
+      q.changePercent = base.changePercent;
+
+      // ランキングAPI側に業種がある場合はそれを優先して引き継ぐ。
+      // fetchQuote() の quoteSummary で assetProfile が取得できない場合でも、
+      // base / PTS / 登録済み業種マップから補完してカードの「業種」が空にならないようにする。
+      q.industry =
+        q.industry ||
+        base.industry ||
+        base.sector ||
+        ptsInfo?.industry ||
+        ptsInfo?.sector ||
+        RECOMMENDED_INDUSTRIES[String(base.code).replace(/\.T$/i, "")] ||
+        null;
+
+      // まだ業種が無い場合は銘柄検索APIのレスポンスから補完を試す。
+      if (!q.industry) {
+        try {
+          const sr = await fetch(`${API_BASE}/api/search?q=${encodeURIComponent(String(base.code).replace(/\.T$/i, ""))}`);
+          if (sr.ok) {
+            const sd = await sr.json();
+            const hit = (sd.quotes || []).find(x =>
+              String(x.symbol || "").replace(/\.T$/i, "").toUpperCase() ===
+              String(base.code).replace(/\.T$/i, "").toUpperCase()
+            );
+            q.industry = hit?.industry || hit?.sector || null;
+          }
+        } catch (e) { /* 業種補完に失敗してもランキング表示は継続 */ }
+      }
+      results[index] = q;
+    } catch (e) {
+      results[index] = {
+        ...base,
+        industry: base.industry || base.sector || RECOMMENDED_INDUSTRIES[String(base.code).replace(/\.T$/i, "")] || null,
+        price: base.price ?? null, ptsPrice: null, target: null,
+        shortTermStrength: null, stability: null, crashRisk: null, crashRiskPct: null,
+        per: null, roe: null, growthRate: null, equityRatio: null,
+        candle: "取得失敗", score: 0, recommendLabel: "判定不可"
+      };
+    }
+    completed++;
+    status.textContent = `${label} 詳細データ取得中… (${completed}/${rows.length})`;
+  };
+  // Render APIへの負荷を抑えながら、4銘柄ずつ並行取得
+  for (let i = 0; i < rows.length; i += 4) {
+    await Promise.all(rows.slice(i, i + 4).map((_, j) => worker(i + j)));
+    await new Promise(r => setTimeout(r, 150));
+  }
+  return results;
+}
+
+async function loadMovers(force = false) {
+  const status = document.getElementById("moversStatus");
+  const box = document.getElementById("moversTables");
+  if (!force && box.dataset.loaded === "true") return;
+  status.textContent = "ランキングを取得しています…";
+  box.innerHTML = "";
+  try {
+    const response = await fetch(`${API_BASE}/api/rankings`);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "ランキングを取得できませんでした");
+    const gainersBase = (data.gainers || []).slice(0, 20);
+    const losersBase = (data.losers || []).slice(0, 20);
+    const gainers = await enrichMoverRows(gainersBase, status, "値上がり率上位20社");
+    const losers = await enrichMoverRows(losersBase, status, "値下がり率上位20社");
+    // 値上がり・値下がりとも共通 renderMoverTable を使用し、各カード最下段に時間帯別見通しを表示
+    box.innerHTML = renderMoverTable("値上がり率 上位20社", gainers) + renderMoverTable("値下がり率 上位20社", losers);
+    refreshFavoriteButtons();
+    box.dataset.loaded = "true";
+    status.textContent = `データ更新時刻: ${data.updatedAt || "配信元の表示なし"}　（${data.source || "市場データ"}）`;
+  } catch (error) {
+    box.dataset.loaded = "false";
+    status.textContent = `取得に失敗しました: ${error.message}`;
+  }
+}
+
+// 初期表示
+renderFavList();
+</script>
+</body>
+</html>
