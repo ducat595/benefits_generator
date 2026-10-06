@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: edinet-benefits-app
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    healthCheckPath: /health
+    envVars:
+      - key: EDINET_API_KEY
+        sync: false
