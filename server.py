@@ -19,7 +19,7 @@ PORT = int(os.environ.get('PORT', '10000'))
 EDINET_API_KEY = os.environ.get('EDINET_API_KEY', '').strip()
 EDINET_CACHE_DIR = os.environ.get('EDINET_CACHE_DIR', '/tmp/edinet_benefits_cache')
 USER_AGENT = 'EDINETBenefitsApp/1.0'
-ALLOWED_ORIGINS = {'http://localhost:10000', 'http://127.0.0.1:10000'}
+ALLOWED_ORIGINS = {'https://ducat595.github.io', 'http://localhost:10000', 'http://127.0.0.1:10000'}
 ALLOWED_ORIGINS.update(x.strip().rstrip('/') for x in os.environ.get('ALLOWED_ORIGINS', '').split(',') if x.strip())
 if os.environ.get('RENDER_EXTERNAL_URL'):
     ALLOWED_ORIGINS.add(os.environ['RENDER_EXTERNAL_URL'].rstrip('/'))

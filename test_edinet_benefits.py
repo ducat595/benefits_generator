@@ -92,6 +92,14 @@ class Tests(unittest.TestCase):
                 response=urlopen(base+'/edinet-benefits');self.assertIn('text/html',response.headers['Content-Type'])
                 self.assertIn('株主優待',response.read().decode())
                 self.assertEqual(json.load(urlopen(base+'/api/edinet/benefits/status'))['status'],'idle')
+                req=Request(base+'/api/edinet/benefits/status',headers={'Origin':'https://ducat595.github.io'})
+                with urlopen(req) as response:
+                    self.assertEqual(response.headers['Access-Control-Allow-Origin'],'https://ducat595.github.io')
+                req=Request(base+'/api/edinet/benefits/job',headers={'Origin':'https://ducat595.github.io'},method='OPTIONS')
+                with urlopen(req) as response:
+                    self.assertEqual(response.status,204)
+                    self.assertIn('Authorization',response.headers['Access-Control-Allow-Headers'])
+
                 req=Request(base+'/api/edinet/benefits/job',data=b'{"action":"start"}',headers={'Content-Type':'application/json'},method='POST')
                 with self.assertRaises(HTTPError) as e:urlopen(req)
                 self.assertEqual(e.exception.code,403)

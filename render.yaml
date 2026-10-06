@@ -9,3 +9,5 @@ services:
     envVars:
       - key: EDINET_API_KEY
         sync: false
+      - key: ALLOWED_ORIGINS
+        value: https://ducat595.github.io
