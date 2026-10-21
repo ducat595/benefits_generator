@@ -1,0 +1,39 @@
+name: EDINET monthly benefits update
+on:
+  schedule:
+    # GitHub schedules are UTC; daily check, month-end guard runs once in JST.
+    - cron: '30 14 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Run for the current month even before month-end'
+        required: false
+        type: boolean
+        default: true
+permissions:
+  contents: write
+concurrency:
+  group: edinet-monthly
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Collect and merge EDINET benefits
+        env:
+          EDINET_API_KEY: ${{ secrets.EDINET_API_KEY }}
+        run: python monthly_update.py ${{ inputs.force && '--force' || '' }}
+      - name: Commit verified outputs
+        run: |
+          git add shareholder_benefits.json benefits_update_history.json
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Update EDINET monthly benefit candidates'
+            git push
+          fi
