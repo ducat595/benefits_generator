@@ -1,10 +1,13 @@
-"""Monthly EDINET update. Run in GitHub Actions with EDINET_API_KEY secret."""
+"""Monthly EDINET update. GitHub Actions calls the existing Render service."""
 import argparse
 import json
 import os
 import tempfile
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
+import time
 
 JST = timezone(timedelta(hours=9))
 BASE = Path(__file__).resolve().parent
@@ -58,30 +61,66 @@ def merge(old, incoming, evidence):
             reviews.append({'code': doc.get('code'), 'docID': doc.get('docID'), 'reason': doc.get('classification')})
     return sorted(merged.values(), key=lambda x: (str(x.get('code', '')), str(x.get('month') or ''))), changes, reviews
 
+def render_request(base, path, token=None, payload=None):
+    """Call the Render app without exposing the EDINET API key."""
+    body = json.dumps(payload).encode('utf-8') if payload is not None else None
+    headers = {'Accept': 'application/json', 'User-Agent': 'BenefitsMonthlyUpdater/1.0'}
+    if body is not None:
+        headers['Content-Type'] = 'application/json'
+        headers['Authorization'] = 'Bearer ' + token
+    req = Request(base + path, data=body, headers=headers, method='POST' if body is not None else 'GET')
+    try:
+        with urlopen(req, timeout=90) as response:
+            result = json.loads(response.read(40 * 1024 * 1024 + 1))
+    except HTTPError as exc:
+        raise RuntimeError('Render HTTP %s at %s' % (exc.code, path)) from None
+    except (URLError, TimeoutError) as exc:
+        raise RuntimeError('Render communication failure at %s (%s)' % (path, type(exc).__name__)) from None
+    if not isinstance(result, dict):
+        raise RuntimeError('Unexpected Render JSON response at ' + path)
+    if 'error' in result:
+        raise RuntimeError('Render error at %s: %s' % (path, result['error']))
+    return result
+
+
 def run(today, force=False):
     import calendar
-    import server
-    import edinet_benefits
     if not force and today.day != calendar.monthrange(today.year, today.month)[1]:
         print('Not the final day of month in JST: skip')
         return
-    if not os.environ.get('EDINET_API_KEY'):
-        raise RuntimeError('EDINET_API_KEY GitHub Actions secret is required')
+    base = os.environ.get('EDINET_RENDER_URL', 'https://edinet-benefits-generator.onrender.com').rstrip('/')
+    if base != 'https://edinet-benefits-generator.onrender.com':
+        raise ValueError('Unexpected Render host')
+    token = os.environ.get('EDINET_BENEFITS_ADMIN_TOKEN', '').strip()
+    if not token:
+        raise RuntimeError('Set EDINET_BENEFITS_ADMIN_TOKEN in BOTH Render and GitHub Actions Secrets')
     begin = today.replace(day=1)
-    with tempfile.TemporaryDirectory() as work:
-        os.environ['EDINET_BENEFITS_DIR'] = work
-        c = edinet_benefits.Collector(server)
-        c.start({'action': 'start', 'startDate': begin.isoformat(), 'endDate': today.isoformat()})
-        c.worker.join(timeout=5 * 60 * 60)
-        if c.worker.is_alive():
-            c.pause()
-            raise TimeoutError('EDINET job exceeded 5 hours')
-        status = c.view()
-        if status['status'] != 'completed':
-            raise RuntimeError('EDINET collection incomplete: status=%s, failedDays=%s, failedDocuments=%s' % (
-                status['status'], len(status.get('failedDays', [])), len(status.get('failedDocuments', []))))
-        export = c.export()
-        evidence = c.evidence()
+    expected_start, expected_end = begin.isoformat(), today.isoformat()
+    # The Render worker persists its job in /tmp; an unexpected restart means failure,
+    # not a successful empty scan. Never change the master for partial/failed results.
+    started = render_request(base, '/api/edinet/benefits/job', token, {
+        'action': 'start', 'startDate': expected_start, 'endDate': expected_end})
+    if started.get('status') != 'running':
+        raise RuntimeError('Render job did not start')
+    deadline = time.monotonic() + 5 * 60 * 60
+    while time.monotonic() < deadline:
+        time.sleep(20)
+        status = render_request(base, '/api/edinet/benefits/status')
+        if status.get('startDate') != expected_start or status.get('endDate') != expected_end:
+            raise RuntimeError('Render job disappeared/restarted; refusing to update master')
+        state = status.get('status')
+        if state in ('completed', 'partial', 'failed', 'interrupted', 'paused'):
+            break
+    else:
+        raise TimeoutError('Render job exceeded 5 hours')
+    if state != 'completed' or status.get('failedDays') or status.get('failedDocuments'):
+        raise RuntimeError('EDINET collection incomplete: status=%s' % state)
+    export = render_request(base, '/api/edinet/benefits/export')
+    if expected_start not in export.get('dataStatus', '') or expected_end not in export.get('dataStatus', ''):
+        raise RuntimeError('Export does not match requested period; refusing to overwrite data')
+    evidence = render_request(base, '/api/edinet/benefits/evidence')
+    if not isinstance(export.get('items'), list):
+        raise RuntimeError('Export items must be an array')
     if not DATA.exists():
         raise FileNotFoundError('既存のshareholder_benefits.jsonを配置してください。過去データ保護のため初期化しません。')
     existing = load(DATA, {})
