@@ -26,7 +26,8 @@ jobs:
           python-version: '3.12'
       - name: Collect and merge EDINET benefits
         env:
-          EDINET_API_KEY: ${{ secrets.EDINET_API_KEY }}
+          EDINET_BENEFITS_ADMIN_TOKEN: ${{ secrets.EDINET_BENEFITS_ADMIN_TOKEN }}
+          EDINET_RENDER_URL: https://edinet-benefits-generator.onrender.com
         run: python monthly_update.py ${{ inputs.force && '--force' || '' }}
       - name: Commit verified outputs
         run: |
